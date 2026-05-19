@@ -57,7 +57,7 @@ const VILLAS: Villa[] = [
   },
   {
     type: 'Type IV',
-    name: 'Villa Type IV',
+    name: 'Vila Varat',
     size: '480 – 550 m²',
     beds: 6,
     baths: 7,
