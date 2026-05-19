@@ -24,7 +24,7 @@ interface Villa {
 const VILLAS: Villa[] = [
   {
     type: 'Type I',
-    name: 'Villa Aureus I',
+    name: 'Villa Type I',
     size: '282 m²',
     beds: 2,
     baths: 1,
