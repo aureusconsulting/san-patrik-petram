@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Petram Resort — San Patrik Landing Page
 
-## Getting Started
+**Live URL:** https://invest.sanpatrik.co  
+**GitHub:** https://github.com/creativecube-eu/san-patrik-petram  
+**Vercel:** Auto-deploys on every push to main  
 
-First, run the development server:
-
+## Local development
 ```bash
+npm install
+cp .env.local.example .env.local
+# Fill in values in .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
+```bash
+git add .
+git commit -m "your message"
+git push
+# → Live on Vercel in ~90 seconds. No manual steps.
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## To update content only
+Edit `/lib/content.ts` → commit → push → done
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Template
+See `TEMPLATE-GUIDE.md` to create new San Patrik projects.
 
-## Learn More
+## GitHub Secrets required
+Go to: GitHub repo → Settings → Secrets and variables → Actions
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Secret | Where to find it |
+|---|---|
+| `VERCEL_TOKEN` | vercel.com → Settings → Tokens → Create |
+| `VERCEL_ORG_ID` | vercel.com → Settings → General → Team ID |
+| `VERCEL_PROJECT_ID` | Vercel project → Settings → General → Project ID |

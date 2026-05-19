@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <!-- Sky gradient: deep navy → mid navy -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#061420"/>
+      <stop offset="40%"  stop-color="#0D2137"/>
+      <stop offset="100%" stop-color="#1B3A5C"/>
+    </linearGradient>
+    <!-- Sea gradient: darker, with slight shimmer -->
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1B3A5C"/>
+      <stop offset="100%" stop-color="#061420"/>
+    </linearGradient>
+    <!-- Horizontal shimmer across the horizon -->
+    <linearGradient id="shimmer" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#C8A96E" stop-opacity="0"/>
+      <stop offset="35%"  stop-color="#C8A96E" stop-opacity="0.07"/>
+      <stop offset="50%"  stop-color="#C8A96E" stop-opacity="0.14"/>
+      <stop offset="65%"  stop-color="#C8A96E" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#C8A96E" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Vignette radial overlay -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="transparent"/>
+      <stop offset="100%" stop-color="#020C15" stop-opacity="0.55"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="680" fill="url(#sky)"/>
+
+  <!-- Sea / coast -->
+  <rect y="640" width="1920" height="440" fill="url(#sea)"/>
+
+  <!-- Soft horizon line -->
+  <rect y="638" width="1920" height="6" fill="#2E4F6F" opacity="0.6"/>
+
+  <!-- Golden horizon shimmer -->
+  <rect y="630" width="1920" height="28" fill="url(#shimmer)"/>
+
+  <!-- Subtle horizontal light bands (atmosphere) -->
+  <rect y="200" width="1920" height="1" fill="#C8A96E" opacity="0.04"/>
+  <rect y="350" width="1920" height="1" fill="#C8A96E" opacity="0.03"/>
+
+  <!-- Sea light reflection strip -->
+  <rect y="700" width="1920" height="80" fill="#1B3A5C" opacity="0.4"/>
+  <rect x="760" y="645" width="400" height="150" fill="#C8A96E" opacity="0.03"/>
+
+  <!-- Vignette -->
+  <rect width="1920" height="1080" fill="url(#vignette)"/>
+</svg>
