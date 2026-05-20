@@ -172,7 +172,7 @@ export function Hero() {
         absolute-positioned scroll indicator (bottom-8) never overlaps them.
         sm:pb-0 removes it on larger screens where the layout is taller.
       */}
-      <div className="relative z-10 w-full px-6 pt-8 pb-20 sm:pt-0 sm:pb-0">
+      <div className="relative z-10 w-full px-6 pt-8 pb-4 sm:pt-0 sm:pb-0">
         <div className="max-w-4xl mx-auto text-center">
 
           {/* Eyebrow */}
