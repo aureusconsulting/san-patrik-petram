@@ -120,7 +120,7 @@ async function sendNotificationEmail(payload: LeadPayload): Promise<void> {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      from:    'Petram Leads <leads@invest.sanpatrik.co>',
+      from:    'Petram Leads <onboarding@resend.dev>',
       to:      ['ivan@sanpatrik.co'],
       subject: `New lead: ${payload.fullName} — ${payload.country} — ${villaLabel[payload.villaType] ?? payload.villaType}`,
       html,

@@ -450,8 +450,12 @@ function LeadFormInner() {
           {isSubmitting ? 'Sending…' : 'Request Villa Details'}
         </button>
 
-        <p className="font-body font-light text-[11px] text-navy-deep/35 text-center tracking-wide">
-          This site is protected by reCAPTCHA. No spam — ever.
+        <p className="font-body font-light text-[11px] text-navy-deep/35 text-center tracking-wide leading-relaxed">
+          Protected by reCAPTCHA —{' '}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">Privacy</a>
+          {' & '}
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">Terms</a>
+          {' apply.'}
         </p>
       </form>
     </motion.div>

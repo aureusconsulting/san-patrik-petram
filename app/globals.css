@@ -40,6 +40,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide reCAPTCHA badge — disclosure text shown near form instead (Google ToS compliant) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
 body {
   background-color: var(--color-cream);
   color: var(--color-charcoal);
