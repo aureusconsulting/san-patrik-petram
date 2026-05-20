@@ -51,13 +51,6 @@ export function Navigation() {
       style={{ backgroundColor, boxShadow }}
       className="fixed top-0 left-0 right-0 z-50 h-[72px] flex items-center"
     >
-      {/* Mobile: always-on dark bg — prevents hero content bleeding through transparent nav */}
-      <div
-        className="absolute inset-0 md:hidden pointer-events-none"
-        style={{ backgroundColor: 'rgba(13, 33, 55, 0.92)' }}
-        aria-hidden="true"
-      />
-
       {/* Animated bottom border */}
       <motion.div
         className="absolute bottom-0 left-0 right-0 h-px bg-navy-light"

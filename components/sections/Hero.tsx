@@ -77,7 +77,7 @@ function StatsBar() {
 
       {/* Mobile — 2 × 2 grid */}
       <div
-        className="grid grid-cols-2 gap-x-10 gap-y-5 md:hidden max-w-[300px] mx-auto"
+        className="grid grid-cols-2 gap-x-10 gap-y-3 md:hidden max-w-[300px] mx-auto"
         role="list"
       >
         {content.hero.stats.map((stat, i) => (
@@ -116,7 +116,7 @@ export function Hero() {
     <section
       ref={heroRef}
       id="hero"
-      className="relative h-[100dvh] min-h-[640px] overflow-hidden flex items-center pt-[72px]"
+      className="relative h-[100dvh] min-h-[640px] overflow-hidden flex items-start md:items-center"
       aria-label="Petram Resort hero"
     >
       {/* ── VIMEO VIDEO BACKGROUND ──────────────────────────────────────────── */}
@@ -172,7 +172,7 @@ export function Hero() {
         absolute-positioned scroll indicator (bottom-8) never overlaps them.
         sm:pb-0 removes it on larger screens where the layout is taller.
       */}
-      <div className="relative z-10 w-full px-6 pb-20 sm:pb-0">
+      <div className="relative z-10 w-full px-6 pt-[88px] md:pt-0 pb-20 sm:pb-0">
         <div className="max-w-4xl mx-auto text-center">
 
           {/* Eyebrow */}
@@ -190,7 +190,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.14, ease: EASE_OUT }}
-            className="font-display font-light text-5xl md:text-7xl text-white mt-5"
+            className="font-display font-light text-4xl md:text-7xl text-white mt-3 md:mt-5"
             style={{ lineHeight: 1.08 }}
           >
             {content.hero.headline.includes("'") ? (
@@ -209,7 +209,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: EASE_OUT }}
-            className="font-body font-light text-xl mt-4 max-w-2xl mx-auto"
+            className="font-body font-light text-xl mt-3 md:mt-4 max-w-2xl mx-auto"
             style={{ color: 'rgba(255,255,255,0.82)' }}
           >
             {content.hero.subheadline}
@@ -220,7 +220,7 @@ export function Hero() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.55, delay: 0.48, ease: EASE_OUT }}
-            className="w-16 h-px bg-gold mx-auto my-8 origin-center"
+            className="w-16 h-px bg-gold mx-auto my-5 md:my-8 origin-center"
             aria-hidden="true"
           />
 
@@ -238,7 +238,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.82, ease: EASE_OUT }}
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+            className="mt-6 md:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
           >
             <button
               onClick={() => { scrollToLeadForm(); gtmEvents.ctaClicked('hero_primary'); }}
