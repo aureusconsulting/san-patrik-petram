@@ -43,21 +43,31 @@ async function createHubSpotContact(payload: LeadPayload): Promise<void> {
   const [firstName, ...rest] = payload.fullName.trim().split(' ');
   const lastName = rest.join(' ') || '';
 
+  const villaLabel: Record<string, string> = {
+    'type-1': 'Type I — Garden Villa',
+    'type-2': 'Type II — Sea View Villa',
+    'type-3': 'Type III — Cliff Penthouse',
+    'type-4': 'Type IV — Signature Estate',
+    'unsure': 'Not sure yet',
+  };
+
+  // Build note text from extra fields (villa type, message, UTMs)
+  const noteParts = [
+    `Villa Interest: ${villaLabel[payload.villaType] ?? payload.villaType}`,
+    payload.message ? `Message: ${payload.message}` : null,
+    payload.utm_source ? `Source: ${payload.utm_source} / ${payload.utm_medium ?? '—'} / ${payload.utm_campaign ?? '—'}` : null,
+    'Lead Source: Petram Landing Page',
+  ].filter(Boolean).join('\n');
+
   const body = {
     properties: {
-      firstname:    firstName,
-      lastname:     lastName,
-      email:        payload.email,
-      phone:        payload.phone,
-      country:      payload.country,
-      // Custom HubSpot properties — create these in HubSpot if they don't exist
-      villa_type_interest: payload.villaType,
-      message:      payload.message ?? '',
-      utm_source:   payload.utm_source   ?? '',
-      utm_medium:   payload.utm_medium   ?? '',
-      utm_campaign: payload.utm_campaign ?? '',
-      utm_content:  payload.utm_content  ?? '',
-      lead_source:  'Petram Landing Page',
+      firstname: firstName,
+      lastname:  lastName,
+      email:     payload.email,
+      phone:     payload.phone,
+      country:   payload.country,
+      // Standard 'description' field — stores villa interest + UTMs until custom props are created
+      description: noteParts,
     },
   };
 
@@ -121,7 +131,8 @@ async function sendNotificationEmail(payload: LeadPayload): Promise<void> {
     },
     body: JSON.stringify({
       from:    'Petram Leads <onboarding@resend.dev>',
-      to:      ['ivan@sanpatrik.co'],
+      // TODO: change to ivan@sanpatrik.co once invest.sanpatrik.co is verified in Resend
+      to:      ['creativecube.eu@gmail.com'],
       subject: `New lead: ${payload.fullName} — ${payload.country} — ${villaLabel[payload.villaType] ?? payload.villaType}`,
       html,
     }),
