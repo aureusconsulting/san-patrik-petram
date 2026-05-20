@@ -27,7 +27,7 @@ export function WhatsAppButton() {
 
   return (
     <div
-      className="fixed bottom-5 right-5 z-[9999] flex flex-col items-center"
+      className="fixed bottom-20 right-5 md:bottom-5 z-[9999] flex flex-col items-center"
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
