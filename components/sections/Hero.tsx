@@ -116,7 +116,7 @@ export function Hero() {
     <section
       ref={heroRef}
       id="hero"
-      className="relative h-screen min-h-[640px] overflow-hidden flex items-start sm:items-center pt-[72px]"
+      className="relative h-[100dvh] min-h-[640px] overflow-hidden flex items-center pt-[72px]"
       aria-label="Petram Resort hero"
     >
       {/* ── VIMEO VIDEO BACKGROUND ──────────────────────────────────────────── */}
@@ -172,7 +172,7 @@ export function Hero() {
         absolute-positioned scroll indicator (bottom-8) never overlaps them.
         sm:pb-0 removes it on larger screens where the layout is taller.
       */}
-      <div className="relative z-10 w-full px-6 pt-8 pb-4 sm:pt-0 sm:pb-0">
+      <div className="relative z-10 w-full px-6 pb-20 sm:pb-0">
         <div className="max-w-4xl mx-auto text-center">
 
           {/* Eyebrow */}
