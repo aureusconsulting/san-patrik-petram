@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
   // i18n routing is handled via the [locale] catch-all segment (App Router pattern).
   // Active locales: en only — multilanguage deferred to a future phase.
 
+  // Sanity Studio uses React.createContext at module evaluation time which Turbopack
+  // can't handle when bundling. Treating these as external keeps them as Node.js
+  // requires instead of inlining — fixes the "createContext is not a function" build error.
+  serverExternalPackages: ['sanity', '@sanity/ui', '@sanity/icons', 'styled-components'],
+
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
