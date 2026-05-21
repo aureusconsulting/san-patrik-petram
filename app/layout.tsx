@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Cormorant_Garamond, Montserrat } from 'next/font/google';
 import './globals.css';
-import { MetaPixel }       from '@/components/tracking/MetaPixel';
-import { LinkedInInsight } from '@/components/tracking/LinkedInInsight';
-import { CookieConsent }   from '@/components/tracking/CookieConsent';
+import { MetaPixel }        from '@/components/tracking/MetaPixel';
+import { LinkedInInsight }  from '@/components/tracking/LinkedInInsight';
+import { CookieConsent }    from '@/components/tracking/CookieConsent';
+import { fetchSiteContent } from '@/lib/sanity/fetch';
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ['latin', 'latin-ext'],
@@ -21,19 +22,21 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Petram Resort & Residences',
-    template: '%s | Petram Resort & Residences',
-  },
-  description:
-    'Ultra-premium stone villas with private pools on the Istrian coast, Savudrija, Croatia.',
-  metadataBase: new URL('https://petram.sanpatrik.co'),
-  icons: {
-    icon:     '/images/favicon-san-patrik.webp',
-    shortcut: '/images/favicon-san-patrik.webp',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { meta } = await fetchSiteContent();
+  return {
+    title: {
+      default:  meta.title,
+      template: `%s | ${meta.title}`,
+    },
+    description: meta.description,
+    metadataBase: new URL('https://petram.sanpatrik.co'),
+    icons: {
+      icon:     '/images/favicon-san-patrik.webp',
+      shortcut: '/images/favicon-san-patrik.webp',
+    },
+  };
+}
 
 // GTM container: GTM-MNH4R46C
 // NOTE: Confirm with client whether to reuse the main site container or create a new one for petram.sanpatrik.co

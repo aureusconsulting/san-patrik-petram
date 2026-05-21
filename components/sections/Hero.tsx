@@ -6,7 +6,7 @@ import { Building2, Waves, TrendingUp, CircleDollarSign, ChevronDown } from 'luc
 import { cn } from '@/lib/utils';
 import { EASE_OUT } from '@/lib/animations';
 import { gtmEvents } from '@/lib/gtm';
-import { content } from '@/lib/content';
+import { usePageContent } from '@/lib/content-context';
 
 const EASE_IN_OUT = [0.42, 0, 0.58, 1] as const;
 
@@ -52,11 +52,12 @@ function StatItem({
 // ─── Stats bar ────────────────────────────────────────────────────────────────
 
 function StatsBar() {
+  const { hero } = usePageContent();
   return (
     <>
       {/* Desktop — horizontal row with gold dividers */}
       <div className="hidden md:flex items-center justify-center" role="list">
-        {content.hero.stats.map((stat, i) => (
+        {hero.stats.map((stat, i) => (
           <div
             key={`${stat.value}-${stat.label}`}
             className="flex items-center"
@@ -68,7 +69,7 @@ function StatsBar() {
               Icon={STAT_ICONS[i]}
               className="px-8 lg:px-10"
             />
-            {i < content.hero.stats.length - 1 && (
+            {i < hero.stats.length - 1 && (
               <div className="w-px h-10 bg-gold/25 flex-shrink-0" aria-hidden="true" />
             )}
           </div>
@@ -80,7 +81,7 @@ function StatsBar() {
         className="grid grid-cols-2 gap-x-10 gap-y-3 md:hidden max-w-[300px] mx-auto"
         role="list"
       >
-        {content.hero.stats.map((stat, i) => (
+        {hero.stats.map((stat, i) => (
           <StatItem
             key={`${stat.value}-${stat.label}`}
             value={stat.value}
@@ -96,6 +97,7 @@ function StatsBar() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export function Hero() {
+  const { hero, nav } = usePageContent();
   const heroRef                         = useRef<HTMLElement>(null);
   const [scrolled50, setScrolled50]     = useState(false);
   const [showIndicator, setShowIndicator] = useState(false);
@@ -131,7 +133,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <iframe
-          src={`https://player.vimeo.com/video/${content.hero.vimeoId}?autoplay=1&muted=1&loop=1&background=1&controls=0`}
+          src={`https://player.vimeo.com/video/${hero.vimeoId}?autoplay=1&muted=1&loop=1&background=1&controls=0`}
           style={{
             position:  'absolute',
             top:       '50%',
@@ -182,7 +184,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: EASE_OUT }}
             className="font-body font-bold text-sm uppercase tracking-[0.15em] text-gold"
           >
-            {content.hero.eyebrow}
+            {hero.eyebrow}
           </motion.p>
 
           {/* H1 */}
@@ -193,15 +195,7 @@ export function Hero() {
             className="font-display font-light text-4xl md:text-7xl text-white mt-3 md:mt-5"
             style={{ lineHeight: 1.08 }}
           >
-            {content.hero.headline.includes("'") ? (
-              <>
-                Where Europe&apos;s Elite
-                <br className="hidden sm:block" />{' '}
-                Choose to Invest
-              </>
-            ) : (
-              content.hero.headline
-            )}
+            {hero.headline}
           </motion.h1>
 
           {/* Subheadline */}
@@ -212,7 +206,7 @@ export function Hero() {
             className="font-body font-light text-xl mt-3 md:mt-4 max-w-2xl mx-auto"
             style={{ color: 'rgba(255,255,255,0.82)' }}
           >
-            {content.hero.subheadline}
+            {hero.subheadline}
           </motion.p>
 
           {/* Gold divider */}
@@ -244,14 +238,14 @@ export function Hero() {
               onClick={() => { scrollToLeadForm(); gtmEvents.ctaClicked('hero_primary'); }}
               className="bg-gold text-navy-deep font-body font-bold text-[13px] uppercase tracking-[0.1em] px-10 py-4 rounded-none hover:bg-gold-light active:bg-gold-dark transition-colors duration-200 w-full sm:w-auto cursor-pointer"
             >
-              {content.hero.ctaPrimary}
+              {hero.ctaPrimary}
             </button>
             <a
-              href={`tel:${content.nav.phone}`}
+              href={`tel:${nav.phone}`}
               onClick={() => gtmEvents.callClicked()}
               className="border border-white text-white font-body font-bold text-[13px] uppercase tracking-[0.1em] px-10 py-4 rounded-none hover:bg-white/10 active:bg-white/20 transition-colors duration-200 w-full sm:w-auto text-center"
             >
-              {content.hero.ctaPhone}
+              {hero.ctaPhone}
             </a>
           </motion.div>
         </div>

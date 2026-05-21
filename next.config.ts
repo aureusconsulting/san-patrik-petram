@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'agentplus-s3.s3.eu-west-2.amazonaws.com',
       },
+      // Sanity image CDN — agent photo and any media uploaded via Studio
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
     ],
   },
 

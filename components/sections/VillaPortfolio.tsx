@@ -6,69 +6,10 @@ import { BedDouble, Bath, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { FADE_UP_LG, STAGGER_MD, STAGGER_LG } from '@/lib/animations';
 import { gtmEvents } from '@/lib/gtm';
+import { usePageContent } from '@/lib/content-context';
+import type { PageContent } from '@/lib/content-context';
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-interface Villa {
-  type: string;
-  name: string;
-  size: string;
-  beds: number;
-  baths: number;
-  feature: string;
-  price: string;
-  soldOut: boolean;
-  imageSrc: string;
-}
-
-const VILLAS: Villa[] = [
-  {
-    type: 'Type I',
-    name: 'Villa Type I',
-    size: '282 m²',
-    beds: 2,
-    baths: 1,
-    feature: '🌿 Garden, Terrace & Private Parking',
-    price: '€1,746,375',
-    soldOut: false,
-    imageSrc: '/images/villas/villa-type-1.webp',
-  },
-  {
-    type: 'Type II',
-    name: 'Villa Type II',
-    size: '376 m²',
-    beds: 3,
-    baths: 4,
-    feature: '🍷 Wine Cellar & Double Garage',
-    price: '€2,007,250',
-    soldOut: false,
-    imageSrc: '/images/villas/villa-type-2.webp',
-  },
-  {
-    type: 'Type III',
-    name: 'Villa Type III',
-    size: '489 m²',
-    beds: 4,
-    baths: 5,
-    feature: '🏊 Private Rooftop Pool',
-    price: '€2,929,700',
-    soldOut: false,
-    imageSrc: '/images/villas/villa-type-3.webp',
-  },
-  {
-    type: 'Type IV',
-    name: 'Villa Type IV',
-    size: '480 – 550 m²',
-    beds: 6,
-    baths: 7,
-    feature: '🏆 Private Cliffside Estate',
-    price: '€3,500,000',
-    soldOut: true,
-    imageSrc: '/images/villas/villa-type-4.jpg',
-  },
-];
-
-const AVAILABILITY = 12;
+type Villa = PageContent['villas'][number];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -90,7 +31,7 @@ function VillaCard({ villa }: { villa: Villa }) {
       <div className="aspect-video w-full relative overflow-hidden">
         <Image
           src={villa.imageSrc}
-          alt={villa.name}
+          alt={villa.imageAlt}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover object-center"
@@ -202,6 +143,8 @@ function VillaCard({ villa }: { villa: Villa }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function VillaPortfolio() {
+  const { villas, project } = usePageContent();
+
   return (
     <section id="villas" className="bg-navy-deep py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -226,14 +169,14 @@ export function VillaPortfolio() {
             className="font-display font-light text-4xl md:text-5xl text-white mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Choose Your Villa — 55 Residences, Four Distinct Types
+            Choose Your Villa — {project.totalUnits} Residences, Four Distinct Types
           </motion.h2>
 
           <motion.p
             variants={FADE_UP_LG}
             className="font-body text-[13px] text-gold mt-3 tracking-wide"
           >
-            ⚡ Limited availability — only {AVAILABILITY} villas remaining
+            ⚡ Limited availability — only {project.remainingUnits} villas remaining
           </motion.p>
         </motion.div>
 
@@ -255,8 +198,8 @@ export function VillaPortfolio() {
           variants={STAGGER_LG}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {VILLAS.map((villa) => (
-            <VillaCard key={villa.name} villa={villa} />
+          {villas.map((villa) => (
+            <VillaCard key={villa.typeId} villa={villa} />
           ))}
         </motion.div>
 

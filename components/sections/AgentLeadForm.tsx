@@ -11,11 +11,7 @@ import { Phone, Mail, MessageCircle, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { EASE_OUT } from '@/lib/animations';
 import { gtmEvents } from '@/lib/gtm';
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const WHATSAPP_URL =
-  'https://api.whatsapp.com/send?phone=385992172314&text=Hi+Ivan%2C+I%27d+like+to+know+more+about+Petram+Resort+villas.';
+import { usePageContent } from '@/lib/content-context';
 
 const COUNTRIES = [
   'Germany', 'Austria', 'Switzerland', 'Slovenia', 'Slovakia',
@@ -96,6 +92,8 @@ function Field({
 // ─── Agent card ───────────────────────────────────────────────────────────────
 
 function AgentCard() {
+  const { agent } = usePageContent();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -111,8 +109,8 @@ function AgentCard() {
           style={{ border: '3px solid #C8A96E' }}
         >
           <Image
-            src="/images/agent/ivan-varat.jpg"
-            alt="Ivan Varat — Luxury Villa Specialist, San Patrik Real Estate"
+            src={agent.imageSrc}
+            alt={agent.imageAlt}
             width={160}
             height={160}
             className="w-full h-full object-cover object-top"
@@ -123,10 +121,10 @@ function AgentCard() {
 
       {/* Name + title */}
       <h3 className="font-body font-bold text-2xl text-navy-deep">
-        Ivan Varat
+        {agent.name}
       </h3>
       <p className="font-body font-normal text-[13px] text-gold mt-1">
-        Luxury Villa Specialist — San Patrik Real Estate
+        {agent.title}
       </p>
 
       {/* LeadingRE badge */}
@@ -139,27 +137,27 @@ function AgentCard() {
 
       {/* Quote */}
       <blockquote className="font-display font-light italic text-lg text-navy-deep/75 leading-relaxed max-w-sm">
-        &ldquo;When you invest in Petram, you&apos;re not buying a property — you&apos;re securing a lifestyle and a financial future in the heart of Europe.&rdquo;
+        &ldquo;{agent.quote}&rdquo;
       </blockquote>
 
       {/* Contact links */}
       <div className="mt-8 flex flex-col gap-3 items-center lg:items-start">
         <a
-          href="tel:+385992172314"
+          href={`tel:${agent.phone}`}
           className="flex items-center gap-2.5 font-body font-normal text-[13px] text-navy-deep hover:text-gold transition-colors duration-200"
         >
           <Phone size={15} strokeWidth={1.5} className="text-gold flex-shrink-0" />
-          +385 99 217 2314
+          {agent.phoneDisplay}
         </a>
         <a
-          href="mailto:ivan@sanpatrik.co"
+          href={`mailto:${agent.email}`}
           className="flex items-center gap-2.5 font-body font-normal text-[13px] text-navy-deep hover:text-gold transition-colors duration-200"
         >
           <Mail size={15} strokeWidth={1.5} className="text-gold flex-shrink-0" />
-          ivan@sanpatrik.co
+          {agent.email}
         </a>
         <a
-          href={WHATSAPP_URL}
+          href={agent.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5 font-body font-normal text-[13px] text-navy-deep hover:text-gold transition-colors duration-200"
@@ -172,17 +170,17 @@ function AgentCard() {
       {/* WhatsApp CTA */}
       <div className="mt-8 w-full max-w-xs lg:max-w-none">
         <p className="font-body font-light text-[12px] text-navy-deep/50 mb-3 text-center lg:text-left">
-          Prefer to chat? Message Ivan directly
+          Prefer to chat? Message {agent.name.split(' ')[0]} directly
         </p>
         <a
-          href={WHATSAPP_URL}
+          href={agent.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2.5 w-full py-3.5 font-body font-bold text-[12px] uppercase tracking-[0.1em] text-white transition-colors duration-200 hover:opacity-90"
           style={{ backgroundColor: '#25D366' }}
         >
           <MessageCircle size={15} strokeWidth={2} aria-hidden="true" />
-          Message Ivan on WhatsApp
+          Message {agent.name.split(' ')[0]} on WhatsApp
         </a>
       </div>
     </motion.div>

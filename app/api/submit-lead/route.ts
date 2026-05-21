@@ -144,9 +144,8 @@ async function sendNotificationEmail(payload: LeadPayload): Promise<void> {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      from:    'Petram Leads <onboarding@resend.dev>',
-      // TODO: change to ivan@sanpatrik.co once invest.sanpatrik.co is verified in Resend
-      to:      ['creativecube.eu@gmail.com'],
+      from:    'Petram Leads <leads@invest.sanpatrik.co>',
+      to:      ['ivan@sanpatrik.co'],
       subject: `New lead: ${payload.fullName} — ${payload.country} — ${VILLA_LABEL[payload.villaType] ?? payload.villaType}`,
       html,
     }),

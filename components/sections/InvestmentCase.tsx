@@ -3,14 +3,7 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { FADE_UP_LG, FADE_UP_SM, STAGGER_MD, STAGGER_SM, EASE_OUT } from '@/lib/animations';
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const STATS = [
-  { value: '6–8%',  label: 'Expected Annual Rental Yield'          },
-  { value: '78%',   label: 'Peak Season Occupancy Rate'             },
-  { value: '42%',   label: 'Property Value Growth — Istria 2019–2024' },
-] as const;
+import { usePageContent } from '@/lib/content-context';
 
 const BENEFITS = [
   'Professional rental management — no owner involvement required',
@@ -53,6 +46,13 @@ function StatBlock({ value, label }: { value: string; label: string }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function InvestmentCase() {
+  const { investment } = usePageContent();
+  const STATS = [
+    { value: investment.yieldRange,       label: investment.yieldLabel       },
+    { value: investment.occupancyRate,    label: investment.occupancyLabel    },
+    { value: investment.appreciationRate, label: investment.appreciationLabel },
+  ];
+
   return (
     <section id="investment" className="py-24" style={{ backgroundColor: '#F5F3EF' }}>
       <div className="max-w-5xl mx-auto px-6">

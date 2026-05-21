@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import { gtmEvents } from '@/lib/gtm';
+import { usePageContent } from '@/lib/content-context';
 
 function PhoneIcon() {
   return (
@@ -31,6 +32,7 @@ function scrollToLeadForm() {
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
 export function Navigation() {
+  const { nav } = usePageContent();
   const { scrollY } = useScroll();
 
   const backgroundColor = useTransform(scrollY, [0, 80, 200], [
@@ -77,11 +79,11 @@ export function Navigation() {
         {/* Phone — desktop center */}
         <div className="hidden md:flex flex-1 justify-center">
           <a
-            href="tel:+385992172314"
+            href={`tel:${nav.phone}`}
             onClick={() => gtmEvents.callClicked()}
             className="font-body font-normal text-white text-[13px] tracking-[0.22em] hover:text-gold transition-colors duration-200"
           >
-            +385 99 217 2314
+            {nav.phoneDisplay}
           </a>
         </div>
 
@@ -92,15 +94,15 @@ export function Navigation() {
             onClick={() => { scrollToLeadForm(); gtmEvents.ctaClicked('nav_cta'); }}
             className="hidden md:block bg-gold text-navy-deep font-body font-bold text-[13px] px-6 py-3 rounded-none tracking-[0.1em] hover:bg-gold-light active:bg-gold-dark transition-colors duration-200 whitespace-nowrap cursor-pointer"
           >
-            Request Villa Details
+            {nav.ctaLabel}
           </button>
 
           {/* Phone icon — mobile only */}
           <a
-            href="tel:+385992172314"
+            href={`tel:${nav.phone}`}
             onClick={() => gtmEvents.callClicked()}
             className="md:hidden text-white hover:text-gold transition-colors duration-200"
-            aria-label="Call +385 99 217 2314"
+            aria-label={`Call ${nav.phoneDisplay}`}
           >
             <PhoneIcon />
           </a>

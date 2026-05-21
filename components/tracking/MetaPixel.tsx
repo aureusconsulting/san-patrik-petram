@@ -1,15 +1,11 @@
 'use client';
 
-// META PIXEL ID: TODO — add from Meta Business Manager
-// Replace PIXEL_ID below with your real ID, e.g. '1234567890123456'
-// Then uncomment the Script block.
-
 import Script from 'next/script';
 
-const PIXEL_ID = 'TODO'; // ← replace
+const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '';
 
 export function MetaPixel() {
-  if (PIXEL_ID === 'TODO') return null;
+  if (!PIXEL_ID) return null;
 
   return (
     <>

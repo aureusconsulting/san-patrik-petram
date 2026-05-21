@@ -4,12 +4,7 @@ import { motion } from 'framer-motion';
 import { Phone, MessageCircle } from 'lucide-react';
 import { gtmEvents } from '@/lib/gtm';
 import { EASE_OUT } from '@/lib/animations';
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const AVAILABILITY = 12;
-const WHATSAPP_URL =
-  'https://api.whatsapp.com/send?phone=385992172314&text=Hi+Ivan%2C+I%27d+like+to+know+more+about+Petram+Resort+villas.';
+import { usePageContent } from '@/lib/content-context';
 
 function scrollToLeadForm() {
   document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -18,6 +13,8 @@ function scrollToLeadForm() {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function FinalCTA() {
+  const { project, agent, nav } = usePageContent();
+
   return (
     <footer id="final-cta" className="bg-navy-deep py-20">
       <div className="max-w-3xl mx-auto px-6 text-center">
@@ -31,7 +28,7 @@ export function FinalCTA() {
           className="font-display font-light text-4xl md:text-5xl lg:text-6xl text-white"
           style={{ lineHeight: 1.08 }}
         >
-          Only {AVAILABILITY} Villas Remaining —
+          Only {project.remainingUnits} Villas Remaining —
           <br className="hidden sm:block" />{' '}
           Secure Your Viewing Today
         </motion.h2>
@@ -60,7 +57,7 @@ export function FinalCTA() {
             }}
             className="bg-gold text-navy-deep font-body font-bold text-[13px] uppercase tracking-[0.1em] px-12 py-4 hover:bg-gold-light active:bg-gold-dark transition-colors duration-200 cursor-pointer w-full sm:w-auto"
           >
-            Request Villa Details
+            {nav.ctaLabel}
           </button>
         </motion.div>
 
@@ -73,18 +70,18 @@ export function FinalCTA() {
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8"
         >
           <a
-            href="tel:+385992172314"
+            href={`tel:${agent.phone}`}
             onClick={() => gtmEvents.callClicked()}
             className="flex items-center gap-2 font-body font-normal text-[13px] text-white/70 hover:text-gold transition-colors duration-200"
           >
             <Phone size={15} strokeWidth={1.5} className="text-gold flex-shrink-0" />
-            +385 99 217 2314
+            {agent.phoneDisplay}
           </a>
 
           <span className="hidden sm:block w-px h-4 bg-white/20" aria-hidden="true" />
 
           <a
-            href={WHATSAPP_URL}
+            href={agent.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => gtmEvents.whatsappClicked()}
