@@ -37,8 +37,23 @@ const nextConfig: NextConfig = {
 
   async headers() {
     return [
+      // ── /studio — admin route, CSP-free ────────────────────────────────────
+      // Sanity Studio loads scripts from core.sanity-cdn.com, connects to
+      // *.api.sanity.io, and pulls assets from multiple Sanity CDN origins.
+      // Rather than enumerate them all, we simply skip the restrictive CSP for
+      // the studio segment — it's not a public page.
       {
-        source: '/(.*)',
+        source: '/studio/:path*',
+        headers: [
+          { key: 'X-Frame-Options',        value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy',        value: 'strict-origin-when-cross-origin' },
+        ],
+      },
+
+      // ── Public site — full security headers ─────────────────────────────────
+      {
+        source: '/((?!studio).*)',
         headers: [
           // Clickjacking protection
           { key: 'X-Frame-Options',        value: 'SAMEORIGIN' },
