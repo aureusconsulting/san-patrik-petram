@@ -1,11 +1,12 @@
-// Server Component — NextStudio uses preloadModule (server-only React DOM API)
-// Do NOT add 'use client' here.
-import { NextStudio } from 'next-sanity/studio';
+'use client';
+
+// Use the client-component variant of NextStudio, not the server wrapper.
+// The server wrapper (next-sanity/studio) uses preloadModule() and then passes
+// Sanity's internal router objects (with functions) across the Server→Client
+// boundary, which React 19 / Next.js 16 forbids. The client-component variant
+// skips all of that — the Studio is fully client-side rendered.
+import { NextStudio } from 'next-sanity/studio/client-component';
 import config from '../../../sanity.config';
-
-export { metadata, viewport } from 'next-sanity/studio';
-
-export const dynamic = 'force-dynamic';
 
 export default function StudioPage() {
   return <NextStudio config={config} />;
