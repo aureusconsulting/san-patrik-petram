@@ -259,7 +259,8 @@ function LeadFormInner() {
         });
 
         if (res.ok) {
-          gtmEvents.formSubmitted({ country: data.country, villaType: data.villaType });
+          const { eventId } = await res.json() as { eventId?: string };
+          gtmEvents.formSubmitted({ country: data.country, villaType: data.villaType, event_id: eventId });
           setSubmittedName(data.fullName.split(' ')[0]);
           setSubmitted(true);
         } else {

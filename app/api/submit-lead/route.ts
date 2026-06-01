@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendCAPILead } from '@/lib/meta-capi';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -175,13 +176,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'reCAPTCHA verification failed' }, { status: 400 });
     }
 
-    // 3. Create HubSpot contact + send email in parallel
+    // 3. Generate deduplication ID shared between CAPI (server) and pixel (client)
+    const eventId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    // 4. Extract request metadata for CAPI user_data
+    const clientIp        = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '';
+    const clientUserAgent = req.headers.get('user-agent') ?? '';
+    const sourceUrl       = req.headers.get('referer') ?? 'https://invest.sanpatrik.co';
+
+    const [firstName, ...rest] = payload.fullName.trim().split(' ');
+    const lastName = rest.join(' ') || '';
+
+    // 5. HubSpot, email, and Meta CAPI in parallel
     await Promise.allSettled([
       createHubSpotContact(payload),
       sendNotificationEmail(payload),
+      sendCAPILead({ email: payload.email, phone: payload.phone, firstName, lastName, eventId, sourceUrl, clientIp, clientUserAgent }),
     ]);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, eventId });
   } catch (err) {
     console.error('[submit-lead] Unexpected error:', err);
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });

@@ -30,17 +30,18 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${meta.title}`,
     },
     description: meta.description,
-    metadataBase: new URL('https://petram.sanpatrik.co'),
+    metadataBase: new URL('https://invest.sanpatrik.co'),
     icons: {
       icon:     '/images/favicon-san-patrik.webp',
       shortcut: '/images/favicon-san-patrik.webp',
     },
+    other: {
+      'facebook-domain-verification': 'i262vg3us506u7tta1l6fbsja3a3jq',
+    },
   };
 }
 
-// GTM container: GTM-MNH4R46C
-// NOTE: Confirm with client whether to reuse the main site container or create a new one for petram.sanpatrik.co
-const GTM_ID = 'GTM-MNH4R46C';
+const GTM_ID = 'GTM-KXDPS27K';
 
 export default function RootLayout({
   children,

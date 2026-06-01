@@ -38,7 +38,7 @@ export const gtmEvents = {
     pushEvent('petram_form_started'),
 
   /** Lead form submitted successfully */
-  formSubmitted: (params: { country: string; villaType: string }) =>
+  formSubmitted: (params: { country: string; villaType: string; event_id?: string }) =>
     pushEvent('petram_form_submitted', params),
 
   /** Villa card CTA clicked — pass villa name */
