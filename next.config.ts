@@ -85,6 +85,8 @@ const nextConfig: NextConfig = {
                 " https://stats.g.doubleclick.net" +
                 " https://www.googletagmanager.com" +
                 " https://googleads.g.doubleclick.net" +
+                " https://ad.doubleclick.net" +
+                " https://www.google.com" +
                 " https://www.facebook.com" +
                 " https://graph.facebook.com" +
                 // Vimeo player API calls (quality selection, analytics)
