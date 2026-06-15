@@ -82,6 +82,7 @@ const nextConfig: NextConfig = {
               "connect-src 'self'" +
                 " https://www.google-analytics.com" +
                 " https://analytics.google.com" +
+                " https://region1.analytics.google.com" +
                 " https://stats.g.doubleclick.net" +
                 " https://www.googletagmanager.com" +
                 " https://googleads.g.doubleclick.net" +
