@@ -73,6 +73,7 @@ const nextConfig: NextConfig = {
                 " https://www.googletagmanager.com" +
                 " https://www.google.com" +
                 " https://www.gstatic.com" +
+                " https://googleads.g.doubleclick.net" +
                 " https://connect.facebook.net" +
                 " https://snap.licdn.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
