@@ -81,8 +81,12 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: blob: https:",
               "connect-src 'self'" +
                 " https://www.google-analytics.com" +
+                " https://analytics.google.com" +
                 " https://stats.g.doubleclick.net" +
                 " https://www.googletagmanager.com" +
+                " https://googleads.g.doubleclick.net" +
+                " https://www.facebook.com" +
+                " https://graph.facebook.com" +
                 // Vimeo player API calls (quality selection, analytics)
                 " https://vimeo.com https://*.vimeocdn.com https://fresnel.vimeocdn.com",
               // player.vimeo.com — hero background video iframe
