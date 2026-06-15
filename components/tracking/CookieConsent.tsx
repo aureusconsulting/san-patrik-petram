@@ -46,8 +46,8 @@ export function CookieConsent() {
       role="dialog"
       aria-label="Cookie consent"
       style={{ backgroundColor: '#0D2137' }}
-      className="fixed bottom-0 left-0 right-0 z-50 px-6 py-5 shadow-2xl
-                 md:bottom-6 md:left-6 md:right-auto md:max-w-md md:rounded-lg"
+      className="fixed left-4 right-4 top-1/2 -translate-y-1/2 z-[9999] rounded-lg px-6 py-5 shadow-2xl
+                 md:left-6 md:right-auto md:top-auto md:bottom-6 md:translate-y-0 md:max-w-md"
     >
       <p className="font-body text-sm text-white/80 leading-relaxed mb-4">
         We use cookies to analyse site traffic and improve your experience.
