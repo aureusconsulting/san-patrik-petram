@@ -83,6 +83,8 @@ const nextConfig: NextConfig = {
                 " https://www.google-analytics.com" +
                 " https://analytics.google.com" +
                 " https://region1.analytics.google.com" +
+                " https://region1.google-analytics.com" +
+                " https://pagead2.googlesyndication.com" +
                 " https://stats.g.doubleclick.net" +
                 " https://www.googletagmanager.com" +
                 " https://googleads.g.doubleclick.net" +
