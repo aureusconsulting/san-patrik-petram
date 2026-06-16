@@ -146,7 +146,7 @@ async function sendNotificationEmail(payload: LeadPayload): Promise<void> {
     },
     body: JSON.stringify({
       from:    'Petram Leads <leads@invest.sanpatrik.co>',
-      to:      ['ivan@sanpatrik.co'],
+      to:      ['ivan@sanpatrik.eu'],
       subject: `New lead: ${payload.fullName} — ${payload.country} — ${VILLA_LABEL[payload.villaType] ?? payload.villaType}`,
       html,
     }),
@@ -155,7 +155,7 @@ async function sendNotificationEmail(payload: LeadPayload): Promise<void> {
   if (!res.ok) {
     console.error('[submit-lead] Resend error:', res.status, await res.text());
   } else {
-    console.log('[submit-lead] Notification email sent to ivan@sanpatrik.co');
+    console.log('[submit-lead] Notification email sent to ivan@sanpatrik.eu');
   }
 }
 

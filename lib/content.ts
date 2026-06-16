@@ -67,7 +67,7 @@ export const content = {
     title:        'Luxury Villa Specialist — San Patrik Real Estate',
     phone:        '+385992172314',
     phoneDisplay: '+385 99 217 2314',
-    email:        'ivan@sanpatrik.co',
+    email:        'ivan@sanpatrik.eu',
     whatsappUrl:  'https://api.whatsapp.com/send?phone=385992172314&text=Hi+Ivan%2C+I%27d+like+to+know+more+about+Petram+Resort+villas.',
     quote:        "When you invest in Petram, you're not buying a property — you're securing a lifestyle and a financial future in the heart of Europe.",
     imageSrc:     '/images/agent/ivan-varat.jpg',
