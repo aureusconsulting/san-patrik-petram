@@ -106,7 +106,7 @@ export function SocialProof() {
               Leading Real Estate Companies of the World™
             </p>
             <p className="font-body font-light text-[13px] text-navy-deep/65 leading-relaxed max-w-xl">
-              Member of LeadingRE — an exclusive global network of top independent agencies selected for quality and results. San Patrik is among fewer than 70 Croatian members and less than 570 companies worldwide.
+              Member of LeadingRE — an exclusive global network of top independent agencies selected for quality and results. San Patrik is the only member in Croatia, among fewer than 570 companies worldwide.
             </p>
           </div>
         </motion.div>
