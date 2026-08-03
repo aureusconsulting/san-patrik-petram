@@ -26,6 +26,7 @@ export const contentPl: typeof content = {
     subheadline: 'Ekskluzywne rezydencje willowe z dochodem z zarządzanego najmu — od 1 700 000 €',
     ctaPrimary:  'Zapytaj o szczegóły willi',
     ctaPhone:    'Zadzwoń do Ivana',
+    ctaBrief:    'Pobierz Investment Brief',
     stats: [
       { value: '55',           label: 'Ekskluzywnych willi' },
       { value: 'Golf i morze', label: 'W zasięgu'           },
@@ -66,6 +67,27 @@ export const contentPl: typeof content = {
     ],
     croatiaQuote:    'Chorwacja to kierunek, w którym płynie dziś mądry europejski kapitał — jak Dubaj dekadę temu, tylko wewnątrz UE.',
     rentalParagraph: 'Państwa willa jest wystawiana, utrzymywana i obsługiwana przez nasz zespół na miejscu, podczas gdy Państwo zarabiają. Właściciele otrzymują kwartalne raporty dochodów, elastyczny kalendarz pobytów własnych i dedykowanego opiekuna nieruchomości. Bez żadnego wysiłku.',
+  },
+
+  // Draft PL copy — pending native review. Source: vault "Petram - LP Copy PL.md" §15
+  // (headline changed to "Why invest" phrasing; yield figure removed per brief).
+  investmentBrief: {
+    ...content.investmentBrief,
+    eyebrow:          'Analiza inwestycji',
+    headline:         'Dlaczego warto inwestować na Istrii?',
+    body:             'Pełna analiza w jednym PDF: ceny willi, model całkowitego zwrotu, dane rynkowe Istrii i przebieg procesu zakupu — do spokojnej lektury, zanim porozmawiamy.',
+    emailLabel:       'Adres e-mail',
+    emailPlaceholder: 'adres@email.com',
+    ctaLabel:         'Pobierz Investment Brief (PDF)',
+    submitting:       'Wysyłanie…',
+    microLine:        'Bez rozmowy i bez zobowiązań — najpierw liczby.',
+    successMessage:   'Dziękujemy — pobieranie właśnie się rozpoczyna. Zachęcamy do zapisania pliku PDF na później.',
+    validation: {
+      emailRequired: 'Adres e-mail jest wymagany',
+      emailInvalid:  'Proszę podać poprawny adres e-mail',
+    },
+    serverError:  'Coś poszło nie tak. Proszę spróbować ponownie.',
+    networkError: 'Błąd połączenia. Proszę spróbować ponownie.',
   },
 
   agent: {

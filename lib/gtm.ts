@@ -41,6 +41,10 @@ export const gtmEvents = {
   formSubmitted: (params: { country: string; villaType: string; event_id?: string }) =>
     pushEvent('petram_form_submitted', params),
 
+  /** Investment brief PDF downloaded (email-gated) — pass locale */
+  briefDownloaded: (locale: string) =>
+    pushEvent('petram_brief_downloaded', { locale }),
+
   /** Villa card CTA clicked — pass villa name */
   villaTypeViewed: (villaType: string) =>
     pushEvent('petram_villa_type_viewed', { villa_type: villaType }),

@@ -30,6 +30,7 @@ export const content = {
     subheadline: 'Exclusive villa residences with managed rental returns — from €1,700,000',
     ctaPrimary:  'Request Villa Details',
     ctaPhone:    'Call Ivan Now',
+    ctaBrief:    'Download Investment Brief',
     stats: [
       { value: '55',          label: 'Exclusive Villas' },
       { value: 'Golf & Sea',  label: 'Access'           },
@@ -79,6 +80,25 @@ export const content = {
     ],
     croatiaQuote:    'Croatia is where smart European capital is moving — similar to Dubai a decade ago, but within the EU.',
     rentalParagraph: 'Petram Resort operates a fully managed rental programme — your villa is listed, maintained, and hosted by our on-site team while you earn. Owners receive quarterly income reports, flexible personal-use calendars, and a dedicated property manager. No effort required on your part.',
+  },
+
+  // ── Investment brief (InvestmentBrief.tsx) ──────────────────────────────────
+  investmentBrief: {
+    eyebrow:          'Investment Analysis',
+    headline:         'Why Invest in Istria?',
+    body:             'Istrian property values grew 42% between 2019 and 2024 — inside the EU, priced in euro, within Schengen, on a coastline that is physically limited. The full case — return model, purchase process, and taxes — is set out in the Petram Investment Brief.',
+    emailLabel:       'Email Address',
+    emailPlaceholder: 'your@email.com',
+    ctaLabel:         'Download the Investment Brief (PDF)',
+    submitting:       'Preparing…',
+    microLine:        'No call, no obligation — the numbers first.',
+    successMessage:   'Thank you — your download is starting. We also recommend saving the PDF for later.',
+    validation: {
+      emailRequired: 'Email is required',
+      emailInvalid:  'Please enter a valid email address',
+    },
+    serverError:  'Something went wrong. Please try again.',
+    networkError: 'Network error. Please try again.',
   },
 
   // ── Agent ────────────────────────────────────────────────────────────────────

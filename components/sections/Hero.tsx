@@ -16,6 +16,10 @@ function scrollToLeadForm() {
   document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' });
 }
 
+function scrollToInvestmentBrief() {
+  document.getElementById('investment-brief')?.scrollIntoView({ behavior: 'smooth' });
+}
+
 // ─── Stat item ────────────────────────────────────────────────────────────────
 
 const STAT_ICONS = [Building2, Waves, TrendingUp, CircleDollarSign] as const;
@@ -97,8 +101,8 @@ function StatsBar() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export function Hero() {
-  const { hero, nav } = usePageContent();
-  const heroRef                         = useRef<HTMLElement>(null);
+  const { hero } = usePageContent();
+  const heroRef                        = useRef<HTMLElement>(null);
   const [scrolled50, setScrolled50]     = useState(false);
   const [showIndicator, setShowIndicator] = useState(false);
 
@@ -240,13 +244,12 @@ export function Hero() {
             >
               {hero.ctaPrimary}
             </button>
-            <a
-              href={`tel:${nav.phone}`}
-              onClick={() => gtmEvents.callClicked()}
-              className="border border-white text-white font-body font-bold text-[13px] uppercase tracking-[0.1em] px-10 py-4 rounded-none hover:bg-white/10 active:bg-white/20 transition-colors duration-200 w-full sm:w-auto text-center"
+            <button
+              onClick={() => { scrollToInvestmentBrief(); gtmEvents.ctaClicked('hero_brief'); }}
+              className="border border-white text-white font-body font-bold text-[13px] uppercase tracking-[0.1em] px-10 py-4 rounded-none hover:bg-white/10 active:bg-white/20 transition-colors duration-200 w-full sm:w-auto text-center cursor-pointer"
             >
-              {hero.ctaPhone}
-            </a>
+              {hero.ctaBrief}
+            </button>
           </motion.div>
         </div>
       </div>

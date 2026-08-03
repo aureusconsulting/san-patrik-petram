@@ -9,6 +9,7 @@ import { WhatIsPetram }      from '@/components/sections/WhatIsPetram';
 import { VillaPortfolio }    from '@/components/sections/VillaPortfolio';
 import { Lifestyle }         from '@/components/sections/Lifestyle';
 import { InvestmentCase }    from '@/components/sections/InvestmentCase';
+import { InvestmentBrief }   from '@/components/sections/InvestmentBrief';
 import { Location }          from '@/components/sections/Location';
 import { AgentLeadForm }     from '@/components/sections/AgentLeadForm';
 import { SocialProof }       from '@/components/sections/SocialProof';
@@ -33,6 +34,7 @@ export default function HomePl() {
         <VillaPortfolio />
         <Lifestyle />
         <InvestmentCase />
+        <InvestmentBrief />
         <Location />
         <AgentLeadForm />
         <SocialProof />

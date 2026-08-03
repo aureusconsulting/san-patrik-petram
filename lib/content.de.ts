@@ -29,6 +29,7 @@ export const contentDe: typeof content = {
     subheadline: 'Exklusive Villenresidenzen mit verwaltetem Mietertrag — ab 1.700.000 €',
     ctaPrimary:  'Villa-Details anfordern',
     ctaPhone:    'Ivan direkt anrufen',
+    ctaBrief:    'Investment Brief herunterladen',
     stats: [
       { value: '55',           label: 'Exklusive Villen'    },
       { value: 'Golf & Meer',  label: 'Direkter Zugang'     },
@@ -72,6 +73,28 @@ export const contentDe: typeof content = {
     ],
     croatiaQuote:    'Kroatien ist der Ort, an den kluges europäisches Kapital gerade zieht — vergleichbar mit Dubai vor einem Jahrzehnt, aber innerhalb der EU.',
     rentalParagraph: 'Ihre Villa wird von unserem Team vor Ort inseriert, gepflegt und betreut, während Sie verdienen. Eigentümer erhalten vierteljährliche Ertragsberichte, einen flexiblen Eigennutzungskalender und einen persönlichen Property Manager. Ohne eigenen Aufwand.',
+  },
+
+  // Draft DE copy — pending native review. Source: vault "Petram - LP Copy DE.md" §15
+  // (headline changed to "Why invest" phrasing per brief; success/micro lines adapted
+  // to direct download instead of email delivery).
+  investmentBrief: {
+    ...content.investmentBrief,
+    eyebrow:          'Investmentanalyse',
+    headline:         'Warum in Istrien investieren?',
+    body:             'Renditemodell, Marktdaten Istrien 2019–2024, Kaufprozess und Steuern — kompakt aufbereitet für Ihre eigene Prüfung im Petram Investment Brief.',
+    emailLabel:       'E-Mail-Adresse',
+    emailPlaceholder: 'ihre@email.de',
+    ctaLabel:         'Investment Brief herunterladen (PDF)',
+    submitting:       'Wird gesendet…',
+    microLine:        'Kein Anruf, keine Verpflichtung — zuerst die Zahlen.',
+    successMessage:   'Vielen Dank — Ihr Download startet. Wir empfehlen, das PDF für später zu speichern.',
+    validation: {
+      emailRequired: 'E-Mail-Adresse ist erforderlich',
+      emailInvalid:  'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+    },
+    serverError:  'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.',
+    networkError: 'Netzwerkfehler. Bitte versuchen Sie es erneut.',
   },
 
   agent: {
