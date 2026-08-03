@@ -64,32 +64,45 @@ async function upsertHubSpotContact(payload: BriefPayload, locale: string): Prom
   //    filter on ("Investment Brief Downloaded is known"). Auto-creates the custom
   //    property on first ever use, then retries once.
   const stampBody = JSON.stringify({
-    properties: { brief_downloaded: new Date().toISOString().slice(0, 10) },
+    properties: {
+      brief_downloaded: new Date().toISOString().slice(0, 10),
+      brief_locale:     locale, // en | de | pl — which landing page they downloaded from
+    },
   });
   const patchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`;
 
   let stampRes = await fetch(patchUrl, { method: 'PATCH', headers, body: stampBody });
   if (!stampRes.ok && stampRes.status === 400) {
     const errText = await stampRes.text();
-    if (errText.includes('brief_downloaded')) {
-      const propRes = await fetch('https://api.hubapi.com/crm/v3/properties/contacts', {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          name:       'brief_downloaded',
-          label:      'Investment Brief Downloaded',
-          type:       'date',
-          fieldType:  'date',
-          groupName:  'contactinformation',
-          description:'Date the Petram Investment Brief PDF was downloaded from invest.sanpatrik.co',
-        }),
-      });
-      if (propRes.ok) {
-        stampRes = await fetch(patchUrl, { method: 'PATCH', headers, body: stampBody });
-        console.log('[download-brief] created brief_downloaded property, retry patch:', stampRes.status);
-      } else {
-        console.error('[download-brief] property create failed:', propRes.status, await propRes.text());
+    if (errText.includes('brief_downloaded') || errText.includes('brief_locale')) {
+      // Lazily create both custom properties (409 = already exists, fine)
+      const propDefs = [
+        {
+          name: 'brief_downloaded', label: 'Investment Brief Downloaded',
+          type: 'date', fieldType: 'date', groupName: 'contactinformation',
+          description: 'Date the Petram Investment Brief PDF was downloaded from invest.sanpatrik.co',
+        },
+        {
+          name: 'brief_locale', label: 'Investment Brief Language',
+          type: 'enumeration', fieldType: 'select', groupName: 'contactinformation',
+          description: 'Landing page language the Investment Brief was downloaded from',
+          options: [
+            { label: 'English', value: 'en' },
+            { label: 'German',  value: 'de' },
+            { label: 'Polish',  value: 'pl' },
+          ],
+        },
+      ];
+      for (const def of propDefs) {
+        const propRes = await fetch('https://api.hubapi.com/crm/v3/properties/contacts', {
+          method: 'POST', headers, body: JSON.stringify(def),
+        });
+        if (!propRes.ok && propRes.status !== 409) {
+          console.error(`[download-brief] property create failed (${def.name}):`, propRes.status, await propRes.text());
+        }
       }
+      stampRes = await fetch(patchUrl, { method: 'PATCH', headers, body: stampBody });
+      console.log('[download-brief] ensured properties, retry patch:', stampRes.status);
     } else {
       console.error('[download-brief] property stamp error:', errText);
     }
