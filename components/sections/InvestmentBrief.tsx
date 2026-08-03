@@ -59,7 +59,7 @@ export function InvestmentBrief() {
       const res = await fetch('/api/download-brief', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email: trimmed, locale, website: honeypot, ...utms }),
+        body:    JSON.stringify({ email: trimmed, locale, form_token: honeypot, ...utms }),
       });
 
       if (res.ok) {
@@ -166,7 +166,7 @@ export function InvestmentBrief() {
                 {/* Honeypot — hidden from humans, bots fill it */}
                 <input
                   type="text"
-                  name="website"
+                  name="form_token"
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"

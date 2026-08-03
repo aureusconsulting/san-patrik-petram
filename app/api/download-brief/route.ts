@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 interface BriefPayload {
   email:         string;
   locale?:       string;
-  website?:      string; // honeypot — must stay empty
+  form_token?:   string; // honeypot — must stay empty (named so browser autofill never touches it)
   utm_source?:   string;
   utm_medium?:   string;
   utm_campaign?: string;
@@ -60,7 +60,42 @@ async function upsertHubSpotContact(payload: BriefPayload, locale: string): Prom
     return;
   }
 
-  // 2. Attach a note recording the brief download + UTMs
+  // 2. Stamp the brief_downloaded date property — this is what HubSpot Active Lists
+  //    filter on ("Investment Brief Downloaded is known"). Auto-creates the custom
+  //    property on first ever use, then retries once.
+  const stampBody = JSON.stringify({
+    properties: { brief_downloaded: new Date().toISOString().slice(0, 10) },
+  });
+  const patchUrl = `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}`;
+
+  let stampRes = await fetch(patchUrl, { method: 'PATCH', headers, body: stampBody });
+  if (!stampRes.ok && stampRes.status === 400) {
+    const errText = await stampRes.text();
+    if (errText.includes('brief_downloaded')) {
+      const propRes = await fetch('https://api.hubapi.com/crm/v3/properties/contacts', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          name:       'brief_downloaded',
+          label:      'Investment Brief Downloaded',
+          type:       'date',
+          fieldType:  'date',
+          groupName:  'contactinformation',
+          description:'Date the Petram Investment Brief PDF was downloaded from invest.sanpatrik.co',
+        }),
+      });
+      if (propRes.ok) {
+        stampRes = await fetch(patchUrl, { method: 'PATCH', headers, body: stampBody });
+        console.log('[download-brief] created brief_downloaded property, retry patch:', stampRes.status);
+      } else {
+        console.error('[download-brief] property create failed:', propRes.status, await propRes.text());
+      }
+    } else {
+      console.error('[download-brief] property stamp error:', errText);
+    }
+  }
+
+  // 3. Attach a note recording the brief download + UTMs
   const utms = [
     payload.utm_source   ? `source=${payload.utm_source}`     : null,
     payload.utm_medium   ? `medium=${payload.utm_medium}`     : null,
@@ -96,8 +131,8 @@ export async function POST(req: NextRequest) {
   try {
     const payload = await req.json() as BriefPayload;
 
-    // 1. Honeypot — a real user never fills the hidden "website" field
-    if (payload.website) {
+    // 1. Honeypot — a real user never fills the hidden field
+    if (payload.form_token) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
 
