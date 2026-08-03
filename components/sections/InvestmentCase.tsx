@@ -5,23 +5,6 @@ import { Check } from 'lucide-react';
 import { FADE_UP_LG, FADE_UP_SM, STAGGER_MD, STAGGER_SM, EASE_OUT } from '@/lib/animations';
 import { usePageContent } from '@/lib/content-context';
 
-const BENEFITS = [
-  'Professional rental management — no owner involvement required',
-  'Flexible owner usage — use your villa whenever you want',
-  'All rental income managed and reported transparently',
-  'Full legal compliance and guest registration handled',
-  "Long-term capital appreciation in EU's fastest-growing luxury market",
-  'No capital gains tax after 2 years for EU residents',
-] as const;
-
-const CROATIA_TAGS = [
-  'EU member state',
-  'Euro currency',
-  'Schengen zone',
-  'Established property law',
-  'Strong demand from German, Austrian, Slovak markets',
-] as const;
-
 // ─── Stat block ───────────────────────────────────────────────────────────────
 
 function StatBlock({ value, label }: { value: string; label: string }) {
@@ -69,7 +52,7 @@ export function InvestmentCase() {
             variants={FADE_UP_SM}
             className="font-body font-bold text-xs uppercase tracking-[0.2em] text-gold"
           >
-            The Investment
+            {investment.eyebrow}
           </motion.p>
 
           <motion.h2
@@ -77,7 +60,7 @@ export function InvestmentCase() {
             className="font-display font-light text-4xl md:text-5xl text-navy-deep mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Your Villa Works For You — Year-Round
+            {investment.headline}
           </motion.h2>
         </motion.div>
 
@@ -103,7 +86,7 @@ export function InvestmentCase() {
           className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 mb-16"
           role="list"
         >
-          {BENEFITS.map((benefit) => (
+          {investment.benefits.map((benefit) => (
             <motion.li
               key={benefit}
               variants={FADE_UP_SM}
@@ -138,11 +121,11 @@ export function InvestmentCase() {
           }}
         >
           <p className="font-body font-bold text-[13px] uppercase tracking-[0.15em] text-gold mb-3">
-            Why Croatia? Why Now?
+            {investment.croatiaTitle}
           </p>
 
           <div className="flex flex-wrap gap-2 mb-5">
-            {CROATIA_TAGS.map((tag) => (
+            {investment.croatiaTags.map((tag) => (
               <span
                 key={tag}
                 className="font-body text-[11px] text-white/80 px-3 py-1 border border-white/15"
@@ -155,7 +138,7 @@ export function InvestmentCase() {
           <p
             className="font-display font-light italic text-xl md:text-2xl text-white/90 leading-snug"
           >
-            &ldquo;Croatia is where smart European capital is moving — similar to Dubai a decade ago, but within the EU.&rdquo;
+            &ldquo;{investment.croatiaQuote}&rdquo;
           </p>
         </motion.div>
 
@@ -169,7 +152,7 @@ export function InvestmentCase() {
           style={{ backgroundColor: 'rgba(200,169,110,0.07)', border: '1px solid rgba(200,169,110,0.2)' }}
         >
           <p className="font-body font-normal text-[13px] text-navy-deep/75 leading-relaxed max-w-2xl mx-auto">
-            Petram Resort operates a fully managed rental programme — your villa is listed, maintained, and hosted by our on-site team while you earn. Owners receive quarterly income reports, flexible personal-use calendars, and a dedicated property manager. No effort required on your part.
+            {investment.rentalParagraph}
           </p>
         </motion.div>
 

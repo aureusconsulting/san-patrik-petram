@@ -20,6 +20,8 @@ function scrollToLeadForm() {
 // ─── Villa card ───────────────────────────────────────────────────────────────
 
 function VillaCard({ villa }: { villa: Villa }) {
+  const { villaPortfolio } = usePageContent();
+
   return (
     <motion.article
       variants={FADE_UP_LG}
@@ -65,7 +67,7 @@ function VillaCard({ villa }: { villa: Villa }) {
           >
             <div className="border px-7 py-2.5" style={{ borderColor: 'rgba(255,255,255,0.25)' }}>
               <span className="font-body font-bold text-xs uppercase tracking-[0.35em] text-white/75">
-                Sold Out
+                {villaPortfolio.soldOutLabel}
               </span>
             </div>
           </div>
@@ -88,12 +90,12 @@ function VillaCard({ villa }: { villa: Villa }) {
         <div className="flex items-center gap-4" style={{ color: 'rgba(255,255,255,0.55)' }}>
           <span className="flex items-center gap-1.5 font-body text-xs">
             <BedDouble size={13} strokeWidth={1.5} aria-hidden="true" />
-            {villa.beds} bed
+            {villa.beds} {villaPortfolio.bedLabel}
           </span>
           <span className="w-px h-3" style={{ backgroundColor: 'rgba(255,255,255,0.18)' }} aria-hidden="true" />
           <span className="flex items-center gap-1.5 font-body text-xs">
             <Bath size={13} strokeWidth={1.5} aria-hidden="true" />
-            {villa.baths} bath
+            {villa.baths} {villaPortfolio.bathLabel}
           </span>
         </div>
 
@@ -127,10 +129,10 @@ function VillaCard({ villa }: { villa: Villa }) {
           }
         >
           {villa.soldOut ? (
-            'Unavailable'
+            villaPortfolio.unavailableLabel
           ) : (
             <>
-              Request Villa Details
+              {villaPortfolio.ctaLabel}
               <ArrowRight size={13} strokeWidth={2} aria-hidden="true" />
             </>
           )}
@@ -143,7 +145,7 @@ function VillaCard({ villa }: { villa: Villa }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function VillaPortfolio() {
-  const { villas, project } = usePageContent();
+  const { villas, project, villaPortfolio } = usePageContent();
 
   return (
     <section id="villas" className="bg-navy-deep py-24">
@@ -161,7 +163,7 @@ export function VillaPortfolio() {
             variants={FADE_UP_LG}
             className="font-body font-bold text-xs uppercase tracking-[0.2em] text-gold"
           >
-            Villa Portfolio
+            {villaPortfolio.eyebrow}
           </motion.p>
 
           <motion.h2
@@ -169,14 +171,14 @@ export function VillaPortfolio() {
             className="font-display font-light text-4xl md:text-5xl text-white mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Choose Your Villa — {project.totalUnits} Residences, Four Distinct Types
+            {villaPortfolio.headlineBefore}{project.totalUnits}{villaPortfolio.headlineAfter}
           </motion.h2>
 
           <motion.p
             variants={FADE_UP_LG}
             className="font-body text-[13px] text-gold mt-3 tracking-wide"
           >
-            ⚡ Limited availability — only {project.remainingUnits} villas remaining
+            {villaPortfolio.urgencyBefore}{project.remainingUnits}{villaPortfolio.urgencyAfter}
           </motion.p>
         </motion.div>
 

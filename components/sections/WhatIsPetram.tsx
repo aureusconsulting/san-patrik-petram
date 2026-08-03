@@ -10,53 +10,18 @@ import {
   UtensilsCrossed,
   Shield,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import { FADE_UP, STAGGER_MD } from '@/lib/animations';
+import { usePageContent } from '@/lib/content-context';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-interface Amenity {
-  Icon: LucideIcon;
-  title: string;
-  desc: string;
-}
-
-const AMENITIES: Amenity[] = [
-  {
-    Icon: Waves,
-    title: 'Rooftop Infinity Pool',
-    desc: "Largest in Europe — panoramic Adriatic views at 42 m elevation",
-  },
-  {
-    Icon: Sparkles,
-    title: 'Spa & Wellness',
-    desc: 'Full-service spa with hammam, sauna & private treatment rooms',
-  },
-  {
-    Icon: Umbrella,
-    title: 'Private Beach',
-    desc: 'Exclusive owner access with reserved sunbeds & personal service',
-  },
-  {
-    Icon: Flag,
-    title: 'Golf Course (PGA National)',
-    desc: 'Championship 18-hole course, 10 minutes from the resort',
-  },
-  {
-    Icon: UtensilsCrossed,
-    title: 'Fine Dining',
-    desc: 'Award-winning restaurant — Istrian & Mediterranean cuisine',
-  },
-  {
-    Icon: Shield,
-    title: '24/7 Security & Concierge',
-    desc: 'Gated community with round-the-clock personal service',
-  },
-];
+const AMENITY_ICONS = [Waves, Sparkles, Umbrella, Flag, UtensilsCrossed, Shield] as const;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function WhatIsPetram() {
+  const { whatIsPetram } = usePageContent();
+
   return (
     <section id="about" className="bg-cream py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -73,7 +38,7 @@ export function WhatIsPetram() {
             variants={FADE_UP}
             className="font-body font-bold text-xs uppercase tracking-[0.2em] text-gold"
           >
-            The Resort
+            {whatIsPetram.eyebrow}
           </motion.p>
 
           <motion.h2
@@ -81,7 +46,7 @@ export function WhatIsPetram() {
             className="font-display font-light text-4xl md:text-5xl text-navy-deep mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Europe&apos;s Most Exclusive New Resort Residences — Istria, Croatia
+            {whatIsPetram.headline}
           </motion.h2>
 
           <motion.p
@@ -89,12 +54,7 @@ export function WhatIsPetram() {
             className="font-body font-light text-base leading-relaxed mt-6"
             style={{ color: 'rgba(44,44,44,0.78)' }}
           >
-            Petram Resort &amp; Residences rises from the ancient limestone of Savudrija —
-            Croatia&apos;s most coveted peninsula. Each of the 55 privately owned villas
-            occupies a unique position above the Adriatic, delivering unobstructed sea and
-            sunset views that have no rival on the European coastline. At its crown sits
-            the largest rooftop infinity pool in Europe — a landmark statement that defines
-            the entire resort.
+            {whatIsPetram.body}
           </motion.p>
         </motion.div>
 
@@ -121,7 +81,9 @@ export function WhatIsPetram() {
           variants={STAGGER_MD}
           className="grid grid-cols-2 lg:grid-cols-3 border-t border-l border-cream-dark"
         >
-          {AMENITIES.map(({ Icon, title, desc }) => (
+          {whatIsPetram.amenities.map(({ title, desc }, i) => {
+            const Icon = AMENITY_ICONS[i];
+            return (
             <motion.div
               key={title}
               variants={FADE_UP}
@@ -147,7 +109,8 @@ export function WhatIsPetram() {
                 </p>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* ── Masterplan image ────────────────────────────────────────── */}
@@ -189,13 +152,13 @@ export function WhatIsPetram() {
               className="font-body text-[11px] uppercase tracking-[0.18em]"
               style={{ color: 'rgba(44,44,44,0.42)' }}
             >
-              Member of
+              {whatIsPetram.memberOfLabel}
             </p>
             <p
               className="font-body font-semibold text-base mt-1"
               style={{ color: 'rgba(44,44,44,0.80)' }}
             >
-              Leading Real Estate Companies of the World™
+              {whatIsPetram.memberOfName}
             </p>
           </div>
         </motion.div>

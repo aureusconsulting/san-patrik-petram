@@ -4,32 +4,8 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { FADE_UP_LG, FADE_UP_SM, STAGGER_MD, STAGGER_SM, EASE_OUT } from '@/lib/animations';
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const TRUST_STATS = [
-  { value: '50+',  label: 'Properties Sold in Istria'         },
-  { value: '15+',  label: 'Years Combined Experience'          },
-  { value: '12',   label: 'Countries Our Clients Represent'    },
-] as const;
-
-// PLACEHOLDER: Replace with real client testimonials
-const TESTIMONIALS = [
-  {
-    quote:
-      "Buying our villa through Ivan was the most seamless property purchase we have ever made. The documentation, the legal process, the rental setup — everything was handled with exceptional professionalism. We are already earning returns.",
-    name: 'Thomas & Marta K.',
-    country: 'Germany',
-    stars: 5,
-  },
-  {
-    quote:
-      "We had been looking at Istria for three years before finding Petram. The combination of resort infrastructure, rental management, and direct sea views at this price point simply does not exist elsewhere in Europe.",
-    name: 'Andreas B.',
-    country: 'Austria',
-    stars: 5,
-  },
-] as const;
+import { usePageContent } from '@/lib/content-context';
+import type { PageContent } from '@/lib/content-context';
 
 // ─── Star rating ──────────────────────────────────────────────────────────────
 
@@ -56,7 +32,7 @@ function TestimonialCard({
   name,
   country,
   stars,
-}: (typeof TESTIMONIALS)[number]) {
+}: PageContent['socialProof']['testimonials'][number]) {
   return (
     <motion.div
       variants={FADE_UP_LG}
@@ -80,6 +56,8 @@ function TestimonialCard({
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function SocialProof() {
+  const { socialProof } = usePageContent();
+
   return (
     <section id="social-proof" className="py-24" style={{ backgroundColor: '#F5F3EF' }}>
       <div className="max-w-5xl mx-auto px-6">
@@ -103,10 +81,10 @@ export function SocialProof() {
 
           <div className="text-center sm:text-left">
             <p className="font-body font-bold text-[13px] uppercase tracking-[0.15em] text-gold mb-2">
-              Leading Real Estate Companies of the World™
+              {socialProof.leadingReTitle}
             </p>
             <p className="font-body font-light text-[13px] text-navy-deep/65 leading-relaxed max-w-xl">
-              Member of LeadingRE — an exclusive global network of top independent agencies selected for quality and results. San Patrik is the only member in Croatia, among fewer than 570 companies worldwide.
+              {socialProof.leadingReBody}
             </p>
           </div>
         </motion.div>
@@ -119,7 +97,7 @@ export function SocialProof() {
           variants={STAGGER_MD}
           className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-16"
         >
-          {TESTIMONIALS.map((t) => (
+          {socialProof.testimonials.map((t) => (
             <TestimonialCard key={t.name} {...t} />
           ))}
         </motion.div>
@@ -142,7 +120,7 @@ export function SocialProof() {
           variants={STAGGER_SM}
           className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-cream-dark border border-cream-dark"
         >
-          {TRUST_STATS.map((stat) => (
+          {socialProof.stats.map((stat) => (
             <motion.div
               key={stat.label}
               variants={FADE_UP_SM}

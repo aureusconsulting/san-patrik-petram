@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FADE_UP_SM, STAGGER_SM } from '@/lib/animations';
+import { usePageContent } from '@/lib/content-context';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -19,39 +20,17 @@ interface LifestyleItem {
 
   Different aspect ratios create natural stagger between the two columns,
   giving the masonry feel without JavaScript height calculations.
+
+  Captions come from content (lifestyle.captions), matched by index.
 */
-const ITEMS: LifestyleItem[] = [
-  {
-    caption:     'Largest rooftop pool in Europe',
-    aspectClass: 'aspect-video',
-    imageSrc:    '/images/lifestyle/pool.jpg',
-  },
-  {
-    caption:     'PGA National Golf — 10 minutes',
-    aspectClass: 'aspect-[4/5]',
-    imageSrc:    '/images/lifestyle/golf.jpg',
-  },
-  {
-    caption:     'Private beach for owners',
-    aspectClass: 'aspect-[4/3]',
-    imageSrc:    '/images/lifestyle/beach.jpg',
-  },
-  {
-    caption:     'Award-winning fine dining',
-    aspectClass: 'aspect-video',
-    imageSrc:    '/images/lifestyle/dining.jpg',
-  },
-  {
-    caption:     'Spa & wellness sanctuary',
-    aspectClass: 'aspect-[3/4]',
-    imageSrc:    '/images/lifestyle/spa.jpg',
-  },
-  {
-    caption:     'Istrian sunsets, every evening',
-    aspectClass: 'aspect-[4/3]',
-    imageSrc:    '/images/lifestyle/villa-interior.jpg',
-  },
-];
+const ITEM_LAYOUT = [
+  { aspectClass: 'aspect-video', imageSrc: '/images/lifestyle/pool.jpg'           },
+  { aspectClass: 'aspect-[4/5]', imageSrc: '/images/lifestyle/golf.jpg'           },
+  { aspectClass: 'aspect-[4/3]', imageSrc: '/images/lifestyle/beach.jpg'          },
+  { aspectClass: 'aspect-video', imageSrc: '/images/lifestyle/dining.jpg'         },
+  { aspectClass: 'aspect-[3/4]', imageSrc: '/images/lifestyle/spa.jpg'            },
+  { aspectClass: 'aspect-[4/3]', imageSrc: '/images/lifestyle/villa-interior.jpg' },
+] as const;
 
 // ─── Photo item ───────────────────────────────────────────────────────────────
 
@@ -85,8 +64,13 @@ function PhotoItem({ item }: { item: LifestyleItem }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function Lifestyle() {
-  const col1 = ITEMS.filter((_, i) => i % 2 === 0);
-  const col2 = ITEMS.filter((_, i) => i % 2 === 1);
+  const { lifestyle } = usePageContent();
+  const items: LifestyleItem[] = ITEM_LAYOUT.map((layout, i) => ({
+    ...layout,
+    caption: lifestyle.captions[i],
+  }));
+  const col1 = items.filter((_, i) => i % 2 === 0);
+  const col2 = items.filter((_, i) => i % 2 === 1);
 
   return (
     <section id="lifestyle" className="bg-white py-24">
@@ -104,7 +88,7 @@ export function Lifestyle() {
             className="font-display font-light italic text-5xl md:text-6xl text-navy-deep"
             style={{ lineHeight: 1.08 }}
           >
-            A Life Earned. A Life Lived.
+            {lifestyle.headline}
           </h2>
         </motion.div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import { useForm, FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,37 +12,25 @@ import { cn } from '@/lib/utils';
 import { EASE_OUT } from '@/lib/animations';
 import { gtmEvents } from '@/lib/gtm';
 import { usePageContent } from '@/lib/content-context';
-
-const COUNTRIES = [
-  'Germany', 'Austria', 'Switzerland', 'Slovenia', 'Slovakia',
-  'Czech Republic', 'Croatia', 'United Kingdom', 'Netherlands', 'Belgium',
-  'France', 'Spain', 'Italy', 'Poland', 'Hungary',
-  'Romania', 'USA', 'UAE', 'Russia', 'Other',
-] as const;
-
-const VILLA_TYPES = [
-  { value: 'type-1', label: 'Type I — Garden Villa'      },
-  { value: 'type-2', label: 'Type II — Sea View Villa'   },
-  { value: 'type-3', label: 'Type III — Cliff Penthouse' },
-  { value: 'type-4', label: 'Type IV — Signature Estate' },
-  { value: 'unsure', label: 'Not sure yet'               },
-] as const;
+import type { PageContent } from '@/lib/content-context';
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
-const schema = z.object({
-  fullName:  z.string().min(2,  'Please enter your full name'),
-  email:     z.string().min(1,  'Email is required').email('Please enter a valid email address'),
-  phone:     z.string().min(6,  'Please include your country code'),
-  country:   z.string().min(1,  'Please select your country'),
-  villaType: z.string().min(1,  'Please select a villa type'),
-  message:   z.string().optional(),
-  gdpr:      z.boolean().refine((v) => v === true, {
-    message: 'You must accept the Privacy Policy to continue',
-  }),
-});
+function buildSchema(v: PageContent['form']['validation']) {
+  return z.object({
+    fullName:  z.string().min(2,  v.fullName),
+    email:     z.string().min(1,  v.emailRequired).email(v.emailInvalid),
+    phone:     z.string().min(6,  v.phone),
+    country:   z.string().min(1,  v.country),
+    villaType: z.string().min(1,  v.villaType),
+    message:   z.string().optional(),
+    gdpr:      z.boolean().refine((val) => val === true, {
+      message: v.gdpr,
+    }),
+  });
+}
 
-type FormData = z.infer<typeof schema>;
+type FormData = z.infer<ReturnType<typeof buildSchema>>;
 
 // ─── Shared input styles ──────────────────────────────────────────────────────
 
@@ -92,7 +80,7 @@ function Field({
 // ─── Agent card ───────────────────────────────────────────────────────────────
 
 function AgentCard() {
-  const { agent } = usePageContent();
+  const { agent, form } = usePageContent();
 
   return (
     <motion.div
@@ -129,7 +117,7 @@ function AgentCard() {
 
       {/* LeadingRE badge */}
       <p className="font-body font-normal text-[11px] uppercase tracking-[0.12em] text-navy-deep/40 mt-2">
-        Member of LeadingRE Global Network
+        {form.memberBadge}
       </p>
 
       {/* Divider */}
@@ -170,7 +158,7 @@ function AgentCard() {
       {/* WhatsApp CTA */}
       <div className="mt-8 w-full max-w-xs lg:max-w-none">
         <p className="font-body font-light text-[12px] text-navy-deep/50 mb-3 text-center lg:text-left">
-          Prefer to chat? Message {agent.name.split(' ')[0]} directly
+          {form.preferChat.replace('{name}', agent.name.split(' ')[0])}
         </p>
         <a
           href={agent.whatsappUrl}
@@ -180,7 +168,7 @@ function AgentCard() {
           style={{ backgroundColor: '#25D366' }}
         >
           <MessageCircle size={15} strokeWidth={2} aria-hidden="true" />
-          Message {agent.name.split(' ')[0]} on WhatsApp
+          {form.whatsappCta.replace('{name}', agent.name.split(' ')[0])}
         </a>
       </div>
     </motion.div>
@@ -190,6 +178,8 @@ function AgentCard() {
 // ─── Thank-you state ──────────────────────────────────────────────────────────
 
 function ThankYou({ name }: { name: string }) {
+  const { form } = usePageContent();
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
@@ -199,10 +189,10 @@ function ThankYou({ name }: { name: string }) {
     >
       <CheckCircle size={52} strokeWidth={1.25} className="text-gold mb-6" aria-hidden="true" />
       <p className="font-display font-light text-3xl text-navy-deep leading-snug">
-        Thank you, {name}.
+        {form.thankYouTitle.replace('{name}', name)}
       </p>
       <p className="font-body font-normal text-[14px] text-navy-deep/60 mt-3 max-w-sm leading-relaxed">
-        Ivan will contact you within 24 hours. Keep an eye on your inbox — and your WhatsApp.
+        {form.thankYouBody}
       </p>
     </motion.div>
   );
@@ -211,11 +201,14 @@ function ThankYou({ name }: { name: string }) {
 // ─── Lead form inner (needs reCAPTCHA context) ────────────────────────────────
 
 function LeadFormInner() {
+  const { form } = usePageContent();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [submitted, setSubmitted]         = useState(false);
   const [submittedName, setSubmittedName] = useState('');
   const [serverError, setServerError]     = useState('');
   const formStartedFired                  = useRef(false);
+
+  const schema = useMemo(() => buildSchema(form.validation), [form.validation]);
 
   const {
     register,
@@ -264,13 +257,13 @@ function LeadFormInner() {
           setSubmittedName(data.fullName.split(' ')[0]);
           setSubmitted(true);
         } else {
-          setServerError('Something went wrong. Please try again or call Ivan directly.');
+          setServerError(form.serverError);
         }
       } catch {
-        setServerError('Network error. Please try again or call Ivan directly.');
+        setServerError(form.networkError);
       }
     },
-    [executeRecaptcha],
+    [executeRecaptcha, form.serverError, form.networkError],
   );
 
   const onError = useCallback((errs: FieldErrors<FormData>) => {
@@ -301,11 +294,11 @@ function LeadFormInner() {
         className="flex flex-col gap-5"
       >
         {/* Full Name */}
-        <Field label="Full Name" required error={errors.fullName?.message}>
+        <Field label={form.labels.fullName} required error={errors.fullName?.message}>
           <input
             id="fullName"
             type="text"
-            placeholder="Your full name"
+            placeholder={form.placeholders.fullName}
             autoComplete="name"
             className={inputBase}
             {...register('fullName')}
@@ -313,11 +306,11 @@ function LeadFormInner() {
         </Field>
 
         {/* Email */}
-        <Field label="Email Address" required error={errors.email?.message}>
+        <Field label={form.labels.email} required error={errors.email?.message}>
           <input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder={form.placeholders.email}
             autoComplete="email"
             className={inputBase}
             {...register('email')}
@@ -326,14 +319,14 @@ function LeadFormInner() {
 
         {/* Phone */}
         <Field
-          label="Phone / WhatsApp"
+          label={form.labels.phone}
           required
           error={errors.phone?.message}
         >
           <input
             id="phone"
             type="tel"
-            placeholder="+49 123 456 7890 (include country code)"
+            placeholder={form.placeholders.phone}
             autoComplete="tel"
             className={inputBase}
             {...register('phone')}
@@ -341,7 +334,7 @@ function LeadFormInner() {
         </Field>
 
         {/* Country */}
-        <Field label="Country of Residence" required error={errors.country?.message}>
+        <Field label={form.labels.country} required error={errors.country?.message}>
           <select
             id="country"
             className={cn(inputBase, 'cursor-pointer')}
@@ -349,9 +342,9 @@ function LeadFormInner() {
             {...register('country')}
           >
             <option value="" disabled>
-              Select your country
+              {form.placeholders.country}
             </option>
-            {COUNTRIES.map((c) => (
+            {form.countries.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>
@@ -360,7 +353,7 @@ function LeadFormInner() {
         </Field>
 
         {/* Villa type */}
-        <Field label="Villa Type of Interest" required error={errors.villaType?.message}>
+        <Field label={form.labels.villaType} required error={errors.villaType?.message}>
           <select
             id="villaType"
             className={cn(inputBase, 'cursor-pointer')}
@@ -368,9 +361,9 @@ function LeadFormInner() {
             {...register('villaType')}
           >
             <option value="" disabled>
-              Select a villa type
+              {form.placeholders.villaType}
             </option>
-            {VILLA_TYPES.map((v) => (
+            {form.villaTypes.map((v) => (
               <option key={v.value} value={v.value}>
                 {v.label}
               </option>
@@ -379,11 +372,11 @@ function LeadFormInner() {
         </Field>
 
         {/* Message */}
-        <Field label="Message" error={errors.message?.message}>
+        <Field label={form.labels.message} error={errors.message?.message}>
           <textarea
             id="message"
             rows={4}
-            placeholder="Any questions or preferred viewing dates?"
+            placeholder={form.placeholders.message}
             className={cn(inputBase, 'resize-none')}
             {...register('message')}
           />
@@ -399,14 +392,14 @@ function LeadFormInner() {
               {...register('gdpr')}
             />
             <span className="font-body font-normal text-[12px] text-navy-deep/60 leading-relaxed group-hover:text-navy-deep/80 transition-colors">
-              I agree to the{' '}
+              {form.gdprPrefix}
               <a
                 href="/privacy-policy"
                 className="underline underline-offset-2 hover:text-gold transition-colors"
               >
-                Privacy Policy
-              </a>{' '}
-              and consent to being contacted about this enquiry
+                {form.gdprLink}
+              </a>
+              {form.gdprSuffix}
               <span className="text-gold ml-0.5">*</span>
             </span>
           </label>
@@ -446,15 +439,15 @@ function LeadFormInner() {
           )}
           style={{ backgroundColor: '#C8A96E', color: '#0D2137' }}
         >
-          {isSubmitting ? 'Sending…' : 'Request Villa Details'}
+          {isSubmitting ? form.submitting : form.submit}
         </button>
 
         <p className="font-body font-light text-[11px] text-navy-deep/35 text-center tracking-wide leading-relaxed">
-          Protected by reCAPTCHA —{' '}
-          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">Privacy</a>
-          {' & '}
-          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">Terms</a>
-          {' apply.'}
+          {form.recaptchaPrefix}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">{form.recaptchaPrivacy}</a>
+          {form.recaptchaMid}
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-navy-deep/60">{form.recaptchaTerms}</a>
+          {form.recaptchaSuffix}
         </p>
       </form>
     </motion.div>
@@ -464,6 +457,8 @@ function LeadFormInner() {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function AgentLeadForm() {
+  const { form } = usePageContent();
+
   return (
     <section id="lead-form" className="bg-white py-24">
       <div className="max-w-5xl mx-auto px-6">
@@ -477,16 +472,16 @@ export function AgentLeadForm() {
           className="text-center mb-14"
         >
           <p className="font-body font-bold text-xs uppercase tracking-[0.2em] text-gold">
-            Get In Touch
+            {form.eyebrow}
           </p>
           <h2
             className="font-display font-light text-4xl md:text-5xl text-navy-deep mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Speak With Ivan Today
+            {form.headline}
           </h2>
           <p className="font-body font-light text-[14px] text-navy-deep/55 mt-3 max-w-lg mx-auto leading-relaxed">
-            Request your private brochure, floor plans, and investment details — no commitment required.
+            {form.subheadline}
           </p>
         </motion.div>
 

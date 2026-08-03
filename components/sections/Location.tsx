@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Plane, Car } from 'lucide-react';
 import { FADE_UP_LG, FADE_UP_SM, STAGGER_MD, STAGGER_SM, EASE_OUT } from '@/lib/animations';
+import { usePageContent } from '@/lib/content-context';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -14,14 +15,8 @@ interface ProximityCard {
   mode: TransportMode;
 }
 
-const PROXIMITY: ProximityCard[] = [
-  { city: 'Venice',       time: '1.5h',  mode: 'car'   },
-  { city: 'Trieste',      time: '1h',    mode: 'car'   },
-  { city: 'Ljubljana',    time: '2h',    mode: 'car'   },
-  { city: 'Zagreb',       time: '2.5h',  mode: 'car'   },
-  { city: 'Pula Airport', time: '45min', mode: 'plane' },
-  { city: 'Vienna',       time: '4.5h',  mode: 'car'   },
-];
+// Transport mode per proximity card, matched by index to location.proximity
+const PROXIMITY_MODES: TransportMode[] = ['car', 'car', 'car', 'car', 'plane', 'car'];
 
 // ─── Proximity card ───────────────────────────────────────────────────────────
 
@@ -53,6 +48,12 @@ function ProxCard({ card }: { card: ProximityCard }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function Location() {
+  const { location } = usePageContent();
+  const proximity: ProximityCard[] = location.proximity.map((card, i) => ({
+    ...card,
+    mode: PROXIMITY_MODES[i],
+  }));
+
   return (
     <section id="location" className="bg-navy-deep py-24">
       <div className="max-w-5xl mx-auto px-6">
@@ -69,7 +70,7 @@ export function Location() {
             variants={FADE_UP_SM}
             className="font-body font-bold text-xs uppercase tracking-[0.2em] text-gold"
           >
-            Location
+            {location.eyebrow}
           </motion.p>
 
           <motion.h2
@@ -77,9 +78,9 @@ export function Location() {
             className="font-display font-light text-4xl md:text-5xl text-white mt-4"
             style={{ lineHeight: 1.1 }}
           >
-            Savudrija, Istria —{' '}
+            {location.headlineLine1}{' '}
             <br className="hidden sm:block" />
-            The Heart of European Accessibility
+            {location.headlineLine2}
           </motion.h2>
         </motion.div>
 
@@ -93,7 +94,7 @@ export function Location() {
           role="list"
           aria-label="Distance from Petram Resort"
         >
-          {PROXIMITY.map((card) => (
+          {proximity.map((card) => (
             <ProxCard key={card.city} card={card} />
           ))}
         </motion.div>
@@ -137,8 +138,7 @@ export function Location() {
           transition={{ duration: 0.65, ease: EASE_OUT }}
           className="font-body font-light text-[14px] text-white/60 leading-loose text-center max-w-2xl mx-auto"
         >
-          {/* Placeholder — replace with final copy */}
-          Savudrija sits at the northwestern tip of the Istrian peninsula, where the Adriatic meets the Slovenian border — placing Petram Resort within reach of five European capitals in under three hours. The peninsula&apos;s UNESCO-listed coastline, Michelin-starred dining scene, and PGA National golf course make it Croatia&apos;s most coveted address for discerning European buyers. Direct air connections via Pula International Airport and proximity to Venice Marco Polo ensure effortless arrival from across the continent.
+          {location.body}
         </motion.p>
 
       </div>

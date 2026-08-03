@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gtmEvents } from '@/lib/gtm';
-
-const WHATSAPP_URL =
-  'https://api.whatsapp.com/send?phone=385992172314&text=Hello%20Ivan%2C%20I\'m%20interested%20in%20the%20Petram%20Resort%20villas.%20Can%20we%20speak%3F';
+import { usePageContent } from '@/lib/content-context';
 
 function WhatsAppIcon() {
   return (
@@ -23,6 +21,7 @@ function WhatsAppIcon() {
 }
 
 export function WhatsAppButton() {
+  const { whatsappFloat } = usePageContent();
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
@@ -41,7 +40,7 @@ export function WhatsAppButton() {
             transition={{ duration: 0.15 }}
             className="mb-2.5 px-3 py-1.5 bg-navy-deep text-white font-body text-xs font-normal tracking-wide whitespace-nowrap shadow-lg pointer-events-none"
           >
-            Chat with Ivan
+            {whatsappFloat.tooltip}
           </motion.div>
         )}
       </AnimatePresence>
@@ -61,7 +60,7 @@ export function WhatsAppButton() {
         />
 
         <motion.a
-          href={WHATSAPP_URL}
+          href={whatsappFloat.url}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat with Ivan on WhatsApp"

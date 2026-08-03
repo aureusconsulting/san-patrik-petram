@@ -13,7 +13,7 @@ function scrollToLeadForm() {
 // ─── Section ──────────────────────────────────────────────────────────────────
 
 export function FinalCTA() {
-  const { project, agent, nav } = usePageContent();
+  const { project, agent, nav, finalCta } = usePageContent();
 
   return (
     <footer id="final-cta" className="bg-navy-deep py-20">
@@ -28,9 +28,9 @@ export function FinalCTA() {
           className="font-display font-light text-4xl md:text-5xl lg:text-6xl text-white"
           style={{ lineHeight: 1.08 }}
         >
-          Only {project.remainingUnits} Villas Remaining —
+          {finalCta.headlineBefore}{project.remainingUnits}{finalCta.headlineAfter}
           <br className="hidden sm:block" />{' '}
-          Secure Your Viewing Today
+          {finalCta.headlineLine2}
         </motion.h2>
 
         {/* ── Gold divider ───────────────────────────────────────────── */}
@@ -88,7 +88,7 @@ export function FinalCTA() {
             className="flex items-center gap-2 font-body font-normal text-[13px] text-white/70 hover:text-gold transition-colors duration-200"
           >
             <MessageCircle size={15} strokeWidth={1.5} className="text-gold flex-shrink-0" />
-            WhatsApp Ivan
+            {finalCta.whatsappLabel}
           </a>
         </motion.div>
 
@@ -104,18 +104,18 @@ export function FinalCTA() {
             href="/privacy-policy"
             className="font-body font-light text-[11px] text-white/35 hover:text-white/60 transition-colors tracking-wide"
           >
-            Privacy Policy
+            {finalCta.privacyLabel}
           </a>
           <span className="hidden sm:block text-white/20" aria-hidden="true">·</span>
           <a
             href="/cookie-policy"
             className="font-body font-light text-[11px] text-white/35 hover:text-white/60 transition-colors tracking-wide"
           >
-            Cookie Policy
+            {finalCta.cookieLabel}
           </a>
           <span className="hidden sm:block text-white/20" aria-hidden="true">·</span>
           <span className="font-body font-light text-[11px] text-white/30 tracking-wide">
-            © 2026 San Patrik (Nobilis Expo d.o.o.)
+            {finalCta.copyright}
           </span>
         </motion.div>
 
