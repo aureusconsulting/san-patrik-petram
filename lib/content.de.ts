@@ -47,10 +47,10 @@ export const contentDe: typeof content = {
 
   investment: {
     ...content.investment,
-    yieldRange:        '6–8 %',
-    yieldLabel:        'Erwartete jährliche Mietrendite',
-    occupancyRate:     '78 %',
-    occupancyLabel:    'Auslastung in der Hochsaison',
+    yieldRange:        '3–4 %',
+    yieldLabel:        'Netto-Mietrendite pro Jahr',
+    occupancyRate:     '100 %',
+    occupancyLabel:    'Auslastung in der Hochsaison (78 % im Jahr)',
     appreciationRate:  '42 %',
     appreciationLabel: 'Immobilien-Wertzuwachs — Istrien 2019–2024',
     eyebrow:           'Das Investment',
@@ -61,7 +61,7 @@ export const contentDe: typeof content = {
       'Alle Mieterträge transparent verwaltet und quartalsweise berichtet',
       'Rechtskonformität und Gästeregistrierung vollständig übernommen',
       'Langfristiger Wertzuwachs im am schnellsten wachsenden Luxusmarkt der EU',
-      'Für EU-Ansässige: steuerfreier Verkauf nach 2 Jahren Haltedauer',
+      'Keine Grunderwerbsteuer beim Kauf einer Neubau-Villa',
     ],
     croatiaTitle: 'Warum Kroatien? Warum jetzt?',
     croatiaTags: [
@@ -142,7 +142,7 @@ export const contentDe: typeof content = {
 
   finalCta: {
     ...content.finalCta,
-    urgencyLabel:   'Nur noch 12 Villen verfügbar',
+    urgencyLabel:   'Nur noch 23 Villen verfügbar',
     headline:       'Sichern Sie sich\nIhre Petram-Villa',
     subheadline:    'Limitierte Verfügbarkeit. Bevorzugter Zugang für registrierte Investoren.',
     ctaPrimary:     'Villa-Details anfordern',
@@ -315,7 +315,7 @@ export const contentDe: typeof content = {
       },
       {
         question: 'Welche jährliche Mietrendite ist zu erwarten?',
-        answer:   'Auf Basis vergleichbarer Objekte in Istrien und unserer Auslastungsmodellierung können Eigentümer mit 6–8 % Netto-Mietrendite pro Jahr rechnen. In der Hochsaison (Juni–August) liegt die Auslastung typischerweise bei über 90 %, mit starker Nebensaison-Nachfrage aus Deutschland, Österreich und Slowenien.',
+        answer:   'Auf Basis der Auslastungsdaten des Resorts können Eigentümer mit 3–4 % Netto-Mietrendite pro Jahr rechnen — bei vollständig verwalteter Vermietung (20 % Managementgebühr). Hinzu kommt der Wertzuwachs: Immobilienwerte in Istrien stiegen zwischen 2019 und 2024 um 42 %. In der Hochsaison (Juni–August) liegt die Auslastung bei 100 %, im Gesamtjahr bei 78 %, mit starker Nebensaison-Nachfrage aus Deutschland, Österreich und Slowenien.',
       },
       {
         question: 'Was ist im Kaufpreis enthalten?',

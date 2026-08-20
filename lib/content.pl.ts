@@ -44,8 +44,8 @@ export const contentPl: typeof content = {
 
   investment: {
     ...content.investment,
-    yieldLabel:        'Oczekiwany roczny zysk z najmu',
-    occupancyLabel:    'Obłożenie w szczycie sezonu',
+    yieldLabel:        'Roczny zysk netto z najmu',
+    occupancyLabel:    'Obłożenie w szczycie sezonu (78% w skali roku)',
     appreciationLabel: 'Wzrost wartości nieruchomości — Istria 2019–2024',
     eyebrow:           'Inwestycja',
     headline:          'Państwa willa pracuje na Państwa — przez cały rok',
@@ -55,7 +55,7 @@ export const contentPl: typeof content = {
       'Cały dochód z najmu rozliczany i raportowany w pełni transparentnie',
       'Pełna zgodność prawna i meldunek gości po naszej stronie',
       'Długoterminowy wzrost wartości na najszybciej rosnącym rynku premium w UE',
-      '0% podatku od zysków kapitałowych po 2 latach dla rezydentów UE',
+      'Nowe wille bez podatku od przeniesienia własności',
     ],
     croatiaTitle: 'Dlaczego Chorwacja? Dlaczego teraz?',
     croatiaTags: [
@@ -135,12 +135,12 @@ export const contentPl: typeof content = {
 
   finalCta: {
     ...content.finalCta,
-    urgencyLabel:   'Zostało tylko 12 willi',
+    urgencyLabel:   'Zostały tylko 23 wille',
     headline:       'Zabezpiecz swoją\nwillę Petram',
     subheadline:    'Limitowana pula. Pierwszeństwo dla zarejestrowanych inwestorów.',
     ctaPrimary:     'Zapytaj o szczegóły willi',
-    headlineBefore: 'Zostało tylko ',
-    headlineAfter:  ' willi —',
+    headlineBefore: 'Zostały tylko ',
+    headlineAfter:  ' wille —',
     headlineLine2:  'Umów prezentację już dziś',
     whatsappLabel:  'WhatsApp z Ivanem',
     privacyLabel:   'Polityka prywatności',
@@ -167,8 +167,8 @@ export const contentPl: typeof content = {
     eyebrow:          'Portfolio willi',
     headlineBefore:   'Wybierz swoją willę — ',
     headlineAfter:    ' rezydencji, cztery typy',
-    urgencyBefore:    '⚡ Ograniczona dostępność — zostało tylko ',
-    urgencyAfter:     ' willi',
+    urgencyBefore:    '⚡ Ograniczona dostępność — zostały tylko ',
+    urgencyAfter:     ' wille',
     bedLabel:         'sypialnie',
     bathLabel:        'łazienki',
     soldOutLabel:     'Wyprzedane',
@@ -308,7 +308,7 @@ export const contentPl: typeof content = {
       },
       {
         question: 'Jakiego rocznego zysku z najmu można oczekiwać?',
-        answer:   'Na podstawie porównywalnych nieruchomości na Istrii i naszego modelu obłożenia resortu właściciele mogą oczekiwać 6–8% rocznego zysku netto z najmu. W szczycie sezonu (czerwiec–sierpień) obłożenie przekracza zwykle 90%, a poza sezonem popyt podtrzymują rynki niemiecki, austriacki i słoweński.',
+        answer:   'Na podstawie danych obłożenia resortu właściciele mogą oczekiwać 3–4% rocznego zysku netto z najmu przy w pełni zarządzanym wynajmie (opłata za zarządzanie 20%) — a łączny zwrot dopełnia wzrost wartości: ceny nieruchomości na Istrii wzrosły o 42% w latach 2019–2024. W szczycie sezonu (czerwiec–sierpień) obłożenie sięga 100%, w skali całego roku 78%, a poza sezonem popyt podtrzymują rynki niemiecki, austriacki i słoweński.',
       },
       {
         question: 'Co obejmuje cena zakupu?',

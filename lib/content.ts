@@ -48,15 +48,15 @@ export const content = {
     startingPriceShort:  '€1.7M',
     developer:           'Nobilis Expo d.o.o.',
     leadingReMember:     true,
-    remainingUnits:      12,
+    remainingUnits:      23,
   },
 
   // ── Investment case ──────────────────────────────────────────────────────────
   investment: {
-    yieldRange:         '6–8%',
-    yieldLabel:         'Expected Annual Rental Yield',
-    occupancyRate:      '78%',
-    occupancyLabel:     'Peak Season Occupancy Rate',
+    yieldRange:         '3–4%',
+    yieldLabel:         'Net Annual Rental Yield',
+    occupancyRate:      '100%',
+    occupancyLabel:     'Peak-Season Occupancy (78% annual)',
     appreciationRate:   '42%',
     appreciationLabel:  'Property Value Growth — Istria 2019–2024',
     rentalProgramName:  'Petram Managed Rental',
@@ -68,7 +68,7 @@ export const content = {
       'All rental income managed and reported transparently',
       'Full legal compliance and guest registration handled',
       "Long-term capital appreciation in EU's fastest-growing luxury market",
-      'No capital gains tax after 2 years for EU residents',
+      'No property transfer tax on new-build villas',
     ],
     croatiaTitle: 'Why Croatia? Why Now?',
     croatiaTags: [
@@ -172,7 +172,7 @@ export const content = {
 
   // ── Final CTA / Footer ───────────────────────────────────────────────────────
   finalCta: {
-    urgencyLabel: 'Only 12 Villas Remaining',
+    urgencyLabel: 'Only 23 Villas Remaining',
     headline:     'Secure Your\nPetram Villa',
     subheadline:  'Limited release. Priority access for registered investors.',
     ctaPrimary:   'Request Villa Details',
@@ -354,7 +354,7 @@ export const content = {
       },
       {
         question: 'What is the expected annual rental yield?',
-        answer:   'Based on comparable properties in Istria and our resort occupancy modelling, owners can expect 6–8% net annual rental yield. Peak season (June–August) typically sees 90%+ occupancy, with strong shoulder-season demand from the German, Austrian, and Slovenian markets.',
+        answer:   'Based on resort occupancy data, owners can expect 3–4% net annual rental yield with the fully managed rental programme (20% management fee) — complemented by capital appreciation: Istrian property values grew 42% between 2019 and 2024. Peak season (June–August) runs at 100% occupancy and 78% across the full year, with strong shoulder-season demand from the German, Austrian, and Slovenian markets.',
       },
       {
         question: 'What is included in the purchase price?',
