@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendCAPIBriefLead } from '@/lib/meta-capi';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -159,14 +160,20 @@ export async function POST(req: NextRequest) {
       : 'en';
     const url = `/downloads/petram-investment-brief-${locale}.pdf`;
 
-    // 3. CRM — never block the download on HubSpot errors
-    try {
-      await upsertHubSpotContact({ ...payload, email: payload.email.trim() }, locale);
-    } catch (err) {
-      console.error('[download-brief] HubSpot unexpected error:', err);
-    }
+    // 3. Deduplication ID shared between CAPI (server) and pixel (client)
+    const eventId = `brief-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-    return NextResponse.json({ ok: true, url });
+    const clientIp        = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '';
+    const clientUserAgent = req.headers.get('user-agent') ?? '';
+    const sourceUrl       = req.headers.get('referer') ?? 'https://invest.sanpatrik.co';
+
+    // 4. CRM + Meta CAPI — never block the download on their errors
+    await Promise.allSettled([
+      upsertHubSpotContact({ ...payload, email: payload.email.trim() }, locale),
+      sendCAPIBriefLead({ email: payload.email.trim(), locale, eventId, sourceUrl, clientIp, clientUserAgent }),
+    ]);
+
+    return NextResponse.json({ ok: true, url, eventId });
   } catch (err) {
     console.error('[download-brief] Unexpected error:', err);
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
