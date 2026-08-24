@@ -63,8 +63,15 @@ export function InvestmentBrief() {
       });
 
       if (res.ok) {
-        const { url } = await res.json() as { url?: string };
+        const { url, eventId } = await res.json() as { url?: string; eventId?: string };
         gtmEvents.briefDownloaded(locale);
+        // Meta pixel Lead, deduplicated against the server-side CAPI event via eventID
+        window.fbq?.(
+          'track',
+          'Lead',
+          { content_name: 'investment_brief', content_category: locale },
+          eventId ? { eventID: eventId } : undefined,
+        );
         setSuccess(true);
         if (url) {
           const a = document.createElement('a');

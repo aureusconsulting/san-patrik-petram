@@ -27,6 +27,13 @@ Edit `/lib/content.ts` → commit → push → done
 ## Template
 See `TEMPLATE-GUIDE.md` to create new San Patrik projects.
 
+## HeyReach MCP (Claude sessions)
+`.mcp.json` registers the HeyReach MCP server (LinkedIn outreach: campaigns, lists, leads, inbox).
+The API key is **not** in the repo (public repo) — it is injected via the `HEYREACH_MCP_KEY`
+environment variable. Set it in the Claude Code environment settings (claude.ai/code →
+environment → Environment variables) and locally in your shell if you use Claude Code on your
+machine. The key lives in HeyReach → Settings → Integrations → MCP.
+
 ## GitHub Secrets required
 Go to: GitHub repo → Settings → Secrets and variables → Actions
 
