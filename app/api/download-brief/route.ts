@@ -16,6 +16,43 @@ interface BriefPayload {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LOCALES  = ['en', 'de', 'pl'] as const;
 
+// ─── HubSpot Forms bridge ─────────────────────────────────────────────────────
+// The brief gate is a custom API route, so HubSpot never sees a form submission —
+// but sequence auto-enrollment triggers only fire on form submissions. Submitting
+// to these hidden per-locale forms ("Petram Brief Download {locale}") makes the
+// "Contact submits a specific form" trigger work. Form GUIDs are public (they ship
+// in every embed snippet); the submission endpoint needs no auth.
+
+const HUBSPOT_PORTAL_ID = '148524688';
+const HUBSPOT_FORM_GUIDS: Record<string, string> = {
+  pl: 'ac141ee9-0a2b-49d6-853b-4b2999e2f423',
+  en: '8d1838af-e328-49df-bba1-79cf8fb1e246',
+  de: '', // pending — Marin to supply the DE form share link
+};
+
+async function submitHubSpotForm(email: string, locale: string, pageUri: string): Promise<void> {
+  const guid = HUBSPOT_FORM_GUIDS[locale];
+  if (!guid) return;
+
+  const res = await fetch(
+    `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${guid}`,
+    {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields:  [{ objectTypeId: '0-1', name: 'email', value: email }],
+        context: { pageUri, pageName: `Petram Investment Brief (${locale})` },
+      }),
+    },
+  );
+
+  if (!res.ok) {
+    console.error('[download-brief] HubSpot form submit error:', res.status, await res.text());
+  } else {
+    console.log('[download-brief] HubSpot form submitted for', email, `(${locale})`);
+  }
+}
+
 // ─── HubSpot: create-or-update contact + attach note ──────────────────────────
 
 async function upsertHubSpotContact(payload: BriefPayload, locale: string): Promise<void> {
@@ -167,10 +204,11 @@ export async function POST(req: NextRequest) {
     const clientUserAgent = req.headers.get('user-agent') ?? '';
     const sourceUrl       = req.headers.get('referer') ?? 'https://invest.sanpatrik.co';
 
-    // 4. CRM + Meta CAPI — never block the download on their errors
+    // 4. CRM + Meta CAPI + HubSpot form (sequence trigger) — never block the download on their errors
     await Promise.allSettled([
       upsertHubSpotContact({ ...payload, email: payload.email.trim() }, locale),
       sendCAPIBriefLead({ email: payload.email.trim(), locale, eventId, sourceUrl, clientIp, clientUserAgent }),
+      submitHubSpotForm(payload.email.trim(), locale, sourceUrl),
     ]);
 
     return NextResponse.json({ ok: true, url, eventId });
