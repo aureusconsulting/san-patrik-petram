@@ -25,9 +25,9 @@ const LOCALES  = ['en', 'de', 'pl'] as const;
 
 const HUBSPOT_PORTAL_ID = '148524688';
 const HUBSPOT_FORM_GUIDS: Record<string, string> = {
-  pl: 'ac141ee9-0a2b-49d6-853b-4b2999e2f423',
+  pl: 'ae6be055-c832-4c61-b8fb-cd079288a543',
+  de: 'ac141ee9-0a2b-49d6-853b-4b2999e2f423',
   en: '8d1838af-e328-49df-bba1-79cf8fb1e246',
-  de: '', // pending — Marin to supply the DE form share link
 };
 
 async function submitHubSpotForm(email: string, locale: string, pageUri: string): Promise<void> {
