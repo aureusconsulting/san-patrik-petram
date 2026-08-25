@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendCAPIBriefLead } from '@/lib/meta-capi';
+import { subscribeOneToOne } from '@/lib/hubspot-comm-prefs';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -209,6 +210,7 @@ export async function POST(req: NextRequest) {
       upsertHubSpotContact({ ...payload, email: payload.email.trim() }, locale),
       sendCAPIBriefLead({ email: payload.email.trim(), locale, eventId, sourceUrl, clientIp, clientUserAgent }),
       submitHubSpotForm(payload.email.trim(), locale, sourceUrl),
+      subscribeOneToOne(payload.email.trim(), 'Requested the Petram Investment Brief via the invest.sanpatrik.co download form'),
     ]);
 
     return NextResponse.json({ ok: true, url, eventId });
