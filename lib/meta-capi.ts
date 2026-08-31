@@ -112,3 +112,49 @@ export async function sendCAPIBriefLead(params: CAPIBriefLeadParams): Promise<vo
     console.log('[meta-capi] Brief Lead event sent, event_id:', params.eventId);
   }
 }
+
+// Villa enquiry submissions also report a dedicated Contact event so ad sets
+// can optimize on "villa enquiry only", separate from brief-download Leads.
+export async function sendCAPIContact(params: CAPILeadParams): Promise<void> {
+  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+  const token   = process.env.META_CAPI_TOKEN;
+
+  if (!pixelId || !token) {
+    console.warn('[meta-capi] NEXT_PUBLIC_META_PIXEL_ID or META_CAPI_TOKEN not set — skipping');
+    return;
+  }
+
+  const payload = {
+    data: [{
+      event_name:       'Contact',
+      event_time:       Math.floor(Date.now() / 1000),
+      event_source_url: params.sourceUrl,
+      action_source:    'website',
+      event_id:         `${params.eventId}-contact`,
+      user_data: {
+        em:                  [sha256(params.email)],
+        ph:                  [sha256(params.phone.replace(/\D/g, ''))],
+        fn:                  [sha256(params.firstName)],
+        ln:                  [sha256(params.lastName)],
+        client_ip_address:   params.clientIp,
+        client_user_agent:   params.clientUserAgent,
+      },
+      custom_data: { content_name: 'villa_enquiry' },
+    }],
+  };
+
+  const res = await fetch(
+    `https://graph.facebook.com/v21.0/${pixelId}/events?access_token=${token}`,
+    {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    },
+  );
+
+  if (!res.ok) {
+    console.error('[meta-capi] Contact event error:', res.status, await res.text());
+  } else {
+    console.log('[meta-capi] Contact event sent, event_id:', `${params.eventId}-contact`);
+  }
+}

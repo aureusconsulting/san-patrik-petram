@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendCAPILead } from '@/lib/meta-capi';
+import { sendCAPILead, sendCAPIContact } from '@/lib/meta-capi';
 import { subscribeOneToOne } from '@/lib/hubspot-comm-prefs';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -193,6 +193,7 @@ export async function POST(req: NextRequest) {
       createHubSpotContact(payload),
       sendNotificationEmail(payload),
       sendCAPILead({ email: payload.email, phone: payload.phone, firstName, lastName, eventId, sourceUrl, clientIp, clientUserAgent }),
+      sendCAPIContact({ email: payload.email, phone: payload.phone, firstName, lastName, eventId, sourceUrl, clientIp, clientUserAgent }),
       subscribeOneToOne(payload.email, 'Submitted the villa enquiry form on invest.sanpatrik.co'),
     ]);
 
